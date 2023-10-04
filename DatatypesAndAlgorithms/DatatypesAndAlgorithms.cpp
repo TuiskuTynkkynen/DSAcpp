@@ -3,18 +3,72 @@
 
 #include <iostream>
 
+struct LinkedList
+{
+	struct Node
+	{
+		int value;
+		Node* next{};
+	};
+
+
+	Node* list;
+
+	LinkedList(int val) {
+		Node* node = new Node;
+		node->value = val;
+		std::cout << node->value << "/" << node->next << "\n";
+		list = node;
+	}
+
+	void AddNode(int val) {
+		Node* node = list;
+		while (node->next != nullptr)
+		{
+			std::cout << node->next << "\n";
+			node = node->next;
+		}
+
+		Node* newnode = new Node;
+		newnode->value = val;
+		node->next = newnode;
+	}
+
+	void PrintList() {
+		Node* node = list;
+		while (node->next != nullptr)
+		{
+			std::cout << node->value << "/" << node->next;
+			std::cout << ", ";
+			node = node->next;
+		}
+		std::cout << node->value << "/" << node->next << "\n";
+	}
+
+	void FreeList() {
+		Node* node = list;
+		Node* prev;
+		while (node->next != nullptr)
+		{
+			//does not work
+			std::cout << node->value << "/" << node->next << ": freed node\n";
+			prev = node;
+			node = node->next;
+			delete[] prev->next;
+		}
+		std::cout << "freed list\n";
+	}
+};
+
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::cout << "Hello World!\n";
+	LinkedList list1(1);
+	//std::cout << list1.list->value << "/" << list1.list->next << "\n";
+	list1.PrintList();
+	list1.AddNode(2);
+	list1.PrintList();
+	list1.PrintList();
+	list1.FreeList();
+	delete[] list1.list;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
