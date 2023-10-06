@@ -49,6 +49,26 @@ struct LinkedList
 		temp->next = node;
 	}
 
+	void Delete(int pos) {
+		Node* node = list;
+		if (pos == 0) {
+			node = list->next;
+			delete[] list;
+			list = node;
+			return;
+		}
+
+		for (int i = 2; i < pos; i++) {
+			if (node->next != nullptr)
+			{
+				node = node->next;
+			}
+		}
+		Node* temp = node->next;
+		node->next = temp->next;
+		delete[] temp;
+	}
+
 	void PrintList() {
 		Node* node = list;
 		while (node->next != nullptr)
@@ -113,6 +133,8 @@ int main()
 	std::cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
 	std::cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
 	list1.InsertAt(3, 3);
+	list1.PrintList();
+	list1.Delete(0);
 	list1.PrintList();
 	list1.FreeList();
 }
