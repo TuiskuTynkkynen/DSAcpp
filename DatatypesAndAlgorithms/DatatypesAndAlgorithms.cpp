@@ -162,6 +162,53 @@ struct BinarySearchTree
 		}
 	}
 
+	void Free(Node* node, Node* child) {
+		/*std::cout << node->left << "/" << node->right << "\n";
+		std::cout << child->left << "/" << child->right << "\n";
+		if (child->left == nullptr && child->right == nullptr) {
+			std::cout << "deleted node with value: " << child->value << "\n";
+			if (child->value > node->value) {
+				delete[] node->left;
+				Free(tree, tree);
+			}
+			else {
+				delete[] node->right;
+				Free(tree, tree);
+			}
+		}
+		
+		if (node->left != nullptr) {
+			Free(node->left, node->left);
+		} else if (node->right != nullptr) {
+			Free(node->right, node->right);
+		}*/
+
+		Node* next = tree;
+		Node* temp = tree;
+		while (next->left != nullptr) {
+			temp = next;
+			next = next->left;
+		}
+		while (next->right != nullptr) {
+			temp = next;
+			next = next->right;
+		}
+
+		std::cout << "freed node with value: " << next->value << "\n";
+		if (next->value < temp->value) {
+			delete[] temp->left;
+			temp->left = nullptr;
+			Free(tree, tree);
+		} else if (next->value > temp->value) {
+			delete[] temp->right;
+			temp->right = nullptr;
+			Free(tree, tree);
+		} else if (tree->left == nullptr && tree->right == nullptr){
+			delete[] tree;
+			tree = nullptr;
+		}
+	}
+
 };
 
 int main()
@@ -170,17 +217,7 @@ int main()
 	BinarySearchTree BST{};
 	BST.Insert(2);
 	BST.Insert(3);
-
-	std::cout << BST.tree->value;
-	if (BST.tree->left != nullptr) {
-		std::cout << BST.tree->left->value;
-		delete[] BST.tree->left;
-	}
-	if (BST.tree->right != nullptr) {
-		std::cout << BST.tree->right->value;
-		delete[] BST.tree->right;
-	}
-	delete[] BST.tree;
+	BST.Free(BST.tree, BST.tree);
 
 	/*LinkedList list1{};
 	list1.PrependNode(2);
