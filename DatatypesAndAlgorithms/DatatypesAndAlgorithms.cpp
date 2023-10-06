@@ -34,6 +34,21 @@ struct LinkedList
 		node->next = newnode;
 	}
 
+	void InsertAt(int pos, int val) {
+		Node* node = new Node;
+		Node* temp = list;
+		for (int i = 2; i < pos; i++) {
+			if (temp->next != nullptr)
+			{
+				temp = temp->next;
+			}
+		}
+
+		node->next = temp->next;
+		node->value = val;
+		temp->next = node;
+	}
+
 	void PrintList() {
 		Node* node = list;
 		while (node->next != nullptr)
@@ -92,10 +107,12 @@ int main()
 	list1.PrependNode(1);
 	list1.PrintList();
 	std::cout << "Count = " << list1.Count() << "\n";
-	list1.AppendNode(3);
+	list1.AppendNode(4);
 	std::cout << "Count = " << list1.Count() << "\n";
 	list1.PrintList();
 	std::cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
 	std::cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
+	list1.InsertAt(3, 3);
+	list1.PrintList();
 	list1.FreeList();
 }
