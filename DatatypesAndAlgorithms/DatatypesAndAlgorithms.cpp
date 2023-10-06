@@ -17,7 +17,6 @@ struct LinkedList
 	LinkedList(int val) {
 		Node* node = new Node;
 		node->value = val;
-		std::cout << node->value << "/" << node->next << "\n";
 		list = node;
 	}
 
@@ -25,7 +24,6 @@ struct LinkedList
 		Node* node = list;
 		while (node->next != nullptr)
 		{
-			std::cout << node->next << "\n";
 			node = node->next;
 		}
 
@@ -57,16 +55,27 @@ struct LinkedList
 		}
 		std::cout << "freed list\n";
 	}
+
+	int Count() {
+		Node* node = list;
+		int count = 1;
+		while (node->next != nullptr)
+		{
+			node = node->next;
+			count++;
+		}
+		return count;
+	}
 };
 
 int main()
 {
 	std::cout << "Hello World!\n";
 	LinkedList list1(1);
-	//std::cout << list1.list->value << "/" << list1.list->next << "\n";
 	list1.PrintList();
+	std::cout << "Count = " << list1.Count() << "\n";
 	list1.AddNode(2);
 	list1.PrintList();
-	list1.PrintList();
+	std::cout << "Count = " << list1.Count() << "\n";
 	list1.FreeList();
 }
