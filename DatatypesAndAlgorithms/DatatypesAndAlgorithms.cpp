@@ -46,15 +46,14 @@ struct LinkedList
 	}
 
 	void FreeList() {
-		Node* node = list;
-		Node* prev;
-		while (node->next != nullptr)
+		Node* node;
+		Node* next = list;
+		while (next != nullptr)
 		{
-			//does not work
+			node = next;
 			std::cout << node->value << "/" << node->next << ": freed node\n";
-			prev = node;
-			node = node->next;
-			delete[] prev->next;
+			next = node->next;
+			delete[] node;
 		}
 		std::cout << "freed list\n";
 	}
@@ -70,5 +69,4 @@ int main()
 	list1.PrintList();
 	list1.PrintList();
 	list1.FreeList();
-	delete[] list1.list;
 }
