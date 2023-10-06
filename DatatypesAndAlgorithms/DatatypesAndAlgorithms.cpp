@@ -162,27 +162,7 @@ struct BinarySearchTree
 		}
 	}
 
-	void Free(Node* node, Node* child) {
-		/*std::cout << node->left << "/" << node->right << "\n";
-		std::cout << child->left << "/" << child->right << "\n";
-		if (child->left == nullptr && child->right == nullptr) {
-			std::cout << "deleted node with value: " << child->value << "\n";
-			if (child->value > node->value) {
-				delete[] node->left;
-				Free(tree, tree);
-			}
-			else {
-				delete[] node->right;
-				Free(tree, tree);
-			}
-		}
-		
-		if (node->left != nullptr) {
-			Free(node->left, node->left);
-		} else if (node->right != nullptr) {
-			Free(node->right, node->right);
-		}*/
-
+	void Free() {
 		Node* next = tree;
 		Node* temp = tree;
 		while (next->left != nullptr) {
@@ -198,11 +178,11 @@ struct BinarySearchTree
 		if (next->value < temp->value) {
 			delete[] temp->left;
 			temp->left = nullptr;
-			Free(tree, tree);
+			Free();
 		} else if (next->value > temp->value) {
 			delete[] temp->right;
 			temp->right = nullptr;
-			Free(tree, tree);
+			Free();
 		} else if (tree->left == nullptr && tree->right == nullptr){
 			delete[] tree;
 			tree = nullptr;
@@ -217,7 +197,7 @@ int main()
 	BinarySearchTree BST{};
 	BST.Insert(2);
 	BST.Insert(3);
-	BST.Free(BST.tree, BST.tree);
+	BST.Free();
 
 	/*LinkedList list1{};
 	list1.PrependNode(2);
