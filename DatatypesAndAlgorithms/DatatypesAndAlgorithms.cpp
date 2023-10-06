@@ -14,13 +14,15 @@ struct LinkedList
 
 	Node* list;
 
-	LinkedList(int val) {
+	void PrependNode(int val) {
 		Node* node = new Node;
+		Node* temp = list;
+		node->next = temp;
 		node->value = val;
 		list = node;
 	}
-
-	void AddNode(int val) {
+	
+	void AppendNode(int val) {
 		Node* node = list;
 		while (node->next != nullptr)
 		{
@@ -85,10 +87,12 @@ struct LinkedList
 int main()
 {
 	std::cout << "Hello World!\n";
-	LinkedList list1(1);
-	std::cout << "Count = " << list1.Count() << "\n";
+	LinkedList list1{};
+	list1.PrependNode(2);
+	list1.PrependNode(1);
 	list1.PrintList();
-	list1.AddNode(2);
+	std::cout << "Count = " << list1.Count() << "\n";
+	list1.AppendNode(3);
 	std::cout << "Count = " << list1.Count() << "\n";
 	list1.PrintList();
 	std::cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
