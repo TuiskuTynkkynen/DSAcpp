@@ -144,17 +144,14 @@ struct BinarySearchTree
 		Node* temp = tree;
 		while (next != nullptr) {
 			if (val < next->value) {
-				if (next->left != nullptr){
-					temp = next;
-				}
+				temp = next;
 				next = next->left;
 			} else {
-				if (next->right != nullptr){
-					temp = next;
-				}
+				temp = next;
 				next = next->right;
 			}
 		}
+
 		if (val < temp->value) {
 			temp->left = node;
 		} else if (val > temp->value) {
@@ -165,25 +162,27 @@ struct BinarySearchTree
 	void Free() {
 		Node* next = tree;
 		Node* temp = tree;
-		while (next->left != nullptr) {
+		while (next->left != nullptr || next->right != nullptr) {
 			temp = next;
-			next = next->left;
-		}
-		while (next->right != nullptr) {
-			temp = next;
-			next = next->right;
+			if (next->left != nullptr) {
+				next = next->left;
+			} else{ 
+				next = next->right;
+			}
 		}
 
-		std::cout << "freed node with value: " << next->value << "\n";
 		if (next->value < temp->value) {
+			std::cout << "freed node with value: " << temp->left->value << "\n";
 			delete[] temp->left;
 			temp->left = nullptr;
 			Free();
 		} else if (next->value > temp->value) {
+			std::cout << "freed node with value: " << temp->right->value << "\n";
 			delete[] temp->right;
 			temp->right = nullptr;
 			Free();
 		} else if (tree->left == nullptr && tree->right == nullptr){
+			std::cout << "freed root node with value: " << tree->value << "\n";
 			delete[] tree;
 			tree = nullptr;
 		}
@@ -193,10 +192,16 @@ struct BinarySearchTree
 
 int main()
 {
+	//make size, width and length methods to make printing possible
+	//(arr of str, str[width], str[how far right] = distance from length 0 * "whitespace" + value)
+	//make some sort of print method to make sure elements are inserted in the right order
+
 	std::cout << "Hello World!\n";
 	BinarySearchTree BST{};
-	BST.Insert(2);
+	BST.Insert(4);
 	BST.Insert(3);
+	BST.Insert(1);
+	BST.Insert(5);
 	BST.Free();
 
 	/*LinkedList list1{};
