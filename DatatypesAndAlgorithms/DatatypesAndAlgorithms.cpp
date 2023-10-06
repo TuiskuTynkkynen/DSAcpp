@@ -66,16 +66,32 @@ struct LinkedList
 		}
 		return count;
 	}
+	
+	int IndexOf(int val) {
+		Node* node = list;
+		int index = 1;
+		while (node != nullptr)
+		{
+			if (val == node->value) {
+				return index;
+			}
+			node = node->next;
+			index++;
+		}
+		return 0;
+	}
 };
 
 int main()
 {
 	std::cout << "Hello World!\n";
 	LinkedList list1(1);
-	list1.PrintList();
 	std::cout << "Count = " << list1.Count() << "\n";
+	list1.PrintList();
 	list1.AddNode(2);
-	list1.PrintList();
 	std::cout << "Count = " << list1.Count() << "\n";
+	list1.PrintList();
+	std::cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
+	std::cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
 	list1.FreeList();
 }
