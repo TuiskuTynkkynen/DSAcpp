@@ -50,8 +50,9 @@ struct LinkedList
 	}
 
 	void Delete(int pos) {
+		if (pos == 0) { return; }
 		Node* node = list;
-		if (pos == 0) {
+		if (pos == 1) {
 			node = list->next;
 			delete[] list;
 			list = node;
@@ -134,7 +135,7 @@ int main()
 	std::cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
 	list1.InsertAt(3, 3);
 	list1.PrintList();
-	list1.Delete(0);
+	list1.Delete(list1.IndexOf(1));
 	list1.PrintList();
 	list1.FreeList();
 }
