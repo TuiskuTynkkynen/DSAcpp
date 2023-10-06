@@ -120,10 +120,69 @@ struct LinkedList
 	}
 };
 
+struct BinarySearchTree
+{
+	struct Node
+	{
+		int value;
+		Node* left{};
+		Node* right{};
+	};
+
+
+	Node* tree;
+
+	void Insert(int val) {
+		Node* node = new Node;
+		node->value = val;
+		if (tree == nullptr) {
+			tree = node;
+			return;
+		}
+
+		Node* next = tree;
+		Node* temp = tree;
+		while (next != nullptr) {
+			if (val < next->value) {
+				if (next->left != nullptr){
+					temp = next;
+				}
+				next = next->left;
+			} else {
+				if (next->right != nullptr){
+					temp = next;
+				}
+				next = next->right;
+			}
+		}
+		if (val < temp->value) {
+			temp->left = node;
+		} else if (val > temp->value) {
+			temp->right = node;
+		}
+	}
+
+};
+
 int main()
 {
 	std::cout << "Hello World!\n";
-	LinkedList list1{};
+	BinarySearchTree BST{};
+	BST.Insert(2);
+	BST.Insert(3);
+
+	std::cout << BST.tree->value;
+	if (BST.tree->left != nullptr) {
+		std::cout << BST.tree->left->value;
+		delete[] BST.tree->left;
+	}
+	if (BST.tree->right != nullptr) {
+		std::cout << BST.tree->right->value;
+		delete[] BST.tree->right;
+	}
+	delete[] BST.tree;
+
+	/*LinkedList list1{};
 	list1.PrependNode(2);
 	list1.PrependNode(1);
 	list1.PrintList();
@@ -137,5 +196,5 @@ int main()
 	list1.PrintList();
 	list1.Delete(list1.IndexOf(1));
 	list1.PrintList();
-	list1.FreeList();
+	list1.FreeList();*/
 }
