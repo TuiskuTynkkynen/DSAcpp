@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+int x = 0;
 
 struct LinkedList
 {
@@ -188,6 +189,20 @@ struct BinarySearchTree
 		}
 	}
 
+	int Size() {
+		x = 0;
+		inOrder(tree);
+		return x;
+	}
+
+	void inOrder(Node* node) {
+		if (node != nullptr) {
+			inOrder(node->left);
+			x++;
+			//std::cout << node->value << "/" << ++x << "\n";
+			inOrder(node->right);
+		}
+	}
 };
 
 int main()
@@ -195,13 +210,20 @@ int main()
 	//make size, width and length methods to make printing possible
 	//(arr of str, str[width], str[how far right] = distance from length 0 * "whitespace" + value)
 	//make some sort of print method to make sure elements are inserted in the right order
-
 	std::cout << "Hello World!\n";
 	BinarySearchTree BST{};
 	BST.Insert(4);
-	BST.Insert(3);
 	BST.Insert(1);
+	BST.Insert(2);
+	BST.Insert(3);
 	BST.Insert(5);
+	BST.Insert(10);
+	BST.Insert(6);
+	BST.Insert(7);
+	BST.Insert(8);
+	BST.Insert(9);
+	BST.Insert(11);
+	std::cout << "Size = " << BST.Size() << "\n";
 	BST.Free();
 
 	/*LinkedList list1{};
