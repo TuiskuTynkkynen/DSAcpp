@@ -1,8 +1,10 @@
-// DatatypesAndAlgorithms.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <string> 
+using namespace std;
+
 int x = 0;
+string* strs;
+int width;
 
 struct LinkedList
 {
@@ -75,11 +77,11 @@ struct LinkedList
 		Node* node = list;
 		while (node->next != nullptr)
 		{
-			std::cout << node->value << "/" << node->next;
-			std::cout << ", ";
+			cout << node->value << "/" << node->next;
+			cout << ", ";
 			node = node->next;
 		}
-		std::cout << node->value << "/" << node->next << "\n";
+		cout << node->value << "/" << node->next << "\n";
 	}
 
 	void FreeList() {
@@ -88,11 +90,11 @@ struct LinkedList
 		while (next != nullptr)
 		{
 			node = next;
-			std::cout << node->value << "/" << node->next << ": freed node\n";
+			cout << node->value << "/" << node->next << ": freed node\n";
 			next = node->next;
 			delete[] node;
 		}
-		std::cout << "freed list\n";
+		cout << "freed list\n";
 	}
 
 	int Count() {
@@ -173,17 +175,17 @@ struct BinarySearchTree
 		}
 
 		if (next->value < temp->value) {
-			std::cout << "freed node with value: " << temp->left->value << "\n";
+			cout << "freed node with value: " << temp->left->value << "\n";
 			delete[] temp->left;
 			temp->left = nullptr;
 			Free();
 		} else if (next->value > temp->value) {
-			std::cout << "freed node with value: " << temp->right->value << "\n";
+			cout << "freed node with value: " << temp->right->value << "\n";
 			delete[] temp->right;
 			temp->right = nullptr;
 			Free();
 		} else if (tree->left == nullptr && tree->right == nullptr){
-			std::cout << "freed root node with value: " << tree->value << "\n";
+			cout << "freed root node with value: " << tree->value << "\n";
 			delete[] tree;
 			tree = nullptr;
 		}
@@ -191,16 +193,65 @@ struct BinarySearchTree
 
 	int Size() {
 		x = 0;
-		inOrder(tree);
+		inOrder(tree, 0);
 		return x;
 	}
 
-	void inOrder(Node* node) {
+	void inOrder(Node* node, int width1) {
 		if (node != nullptr) {
-			inOrder(node->left);
+			inOrder(node->left, width1);
+			width1++;
 			x++;
-			//std::cout << node->value << "/" << ++x << "\n";
-			inOrder(node->right);
+			inOrder(node->right, width1);
+			width1--;
+		}
+
+		if (abs(width1) > width) {
+			width = abs(width1);
+		}
+	}
+
+	void Print() {
+		x = 0;
+		width = 0;
+		inOrder(tree, 0);
+		strs = new string[width*2];
+		cout << "Binary tree: \n";
+		PrintTraverse(tree, 0);
+		for (int i = 0; i < width*2; i++) {
+			if (!strs[i].empty()) {
+				cout << strs[i] << "\n";
+			}
+		}
+		delete[] strs;
+	}
+
+	void PrintTraverse(Node* node, int depth) {
+		if (node != nullptr) {
+			depth++;
+			PrintTraverse(node->left, depth);
+			PrintTraverse(node->right, depth);
+			depth--;
+
+			int distance = 0;
+			Node* temp = tree;
+			while (node->value != temp->value) {
+				if (node->value < temp->value) {
+					temp = temp->left;
+					distance++;
+				} else {
+					temp = temp->right;
+					distance--;
+				}
+			}
+			while (strs[width - distance].length() < 3 * depth + 1) {
+				strs[width - distance] += " ";
+			}
+			string val = to_string(node->value);
+			for (int i = 0; i < val.length(); i++) {
+				strs[width - distance][depth*2 + i] = (strs[width - distance][depth * 2 + i] == ' ') ? val[i] : '?';
+			}
+			strs[width - distance][depth * 2 +  val.length()] = '<';
 		}
 	}
 };
@@ -210,32 +261,30 @@ int main()
 	//make size, width and length methods to make printing possible
 	//(arr of str, str[width], str[how far right] = distance from length 0 * "whitespace" + value)
 	//make some sort of print method to make sure elements are inserted in the right order
-	std::cout << "Hello World!\n";
+	cout << "Hello World!\n";
 	BinarySearchTree BST{};
 	BST.Insert(4);
-	BST.Insert(1);
 	BST.Insert(2);
+	BST.Insert(1);
 	BST.Insert(3);
-	BST.Insert(5);
-	BST.Insert(10);
 	BST.Insert(6);
+	BST.Insert(5);
 	BST.Insert(7);
-	BST.Insert(8);
-	BST.Insert(9);
-	BST.Insert(11);
-	std::cout << "Size = " << BST.Size() << "\n";
+	BST.Insert(111);
+	cout << "Size = " << BST.Size() << "\n";
+	BST.Print();
 	BST.Free();
 
 	/*LinkedList list1{};
 	list1.PrependNode(2);
 	list1.PrependNode(1);
 	list1.PrintList();
-	std::cout << "Count = " << list1.Count() << "\n";
+	cout << "Count = " << list1.Count() << "\n";
 	list1.AppendNode(4);
-	std::cout << "Count = " << list1.Count() << "\n";
+	cout << "Count = " << list1.Count() << "\n";
 	list1.PrintList();
-	std::cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
-	std::cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
+	cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
+	cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
 	list1.InsertAt(3, 3);
 	list1.PrintList();
 	list1.Delete(list1.IndexOf(1));
