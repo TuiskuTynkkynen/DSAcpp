@@ -191,24 +191,24 @@ struct BinarySearchTree
 		}
 	}
 
+	bool Search(int val) {
+		Node* node = tree;
+		while (node != nullptr) {
+			if (node->value == val) {
+				return true;
+			} else if (node->value > val){
+				node = node->left;
+			} else {
+				node = node->right;
+			}
+		}
+		return false;
+	}
+
 	int Size() {
 		x = 0;
 		inOrder(tree, 0);
 		return x;
-	}
-
-	void inOrder(Node* node, int width1) {
-		if (node != nullptr) {
-			inOrder(node->left, width1);
-			width1++;
-			x++;
-			inOrder(node->right, width1);
-			width1--;
-		}
-
-		if (abs(width1) > width) {
-			width = abs(width1);
-		}
 	}
 
 	void Print() {
@@ -226,7 +226,21 @@ struct BinarySearchTree
 		delete[] strs;
 	}
 
-	void PrintTraverse(Node* node, int depth) {
+	private : void inOrder(Node* node, int width1) {
+		if (node != nullptr) {
+			inOrder(node->left, width1);
+			width1++;
+			x++;
+			inOrder(node->right, width1);
+			width1--;
+		}
+
+		if (abs(width1) > width) {
+			width = abs(width1);
+		}
+	}
+
+	private: void PrintTraverse(Node* node, int depth) {
 		if (node != nullptr) {
 			depth++;
 			PrintTraverse(node->left, depth);
@@ -270,11 +284,16 @@ int main()
 	BST.Insert(6);
 	BST.Insert(5);
 	BST.Insert(7);
-	BST.Insert(111);
 	cout << "Size = " << BST.Size() << "\n";
 	BST.Print();
+	for (int i = 0; i < 10; i++) {
+		if (BST.Search(i)) {
+			cout << "BST contains value =" << i << "\n";
+		} else {
+			cout << "BST doesn't contain value =" << i << "\n";
+		}
+	}
 	BST.Free();
-
 	/*LinkedList list1{};
 	list1.PrependNode(2);
 	list1.PrependNode(1);
