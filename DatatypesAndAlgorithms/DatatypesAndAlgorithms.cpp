@@ -287,6 +287,16 @@ struct BinarySearchTree
 		return false;
 	}
 
+	int Min() {
+		Node* node = MinChild(tree);
+		return node->value;
+	}
+
+	int Max() {
+		Node* node = MaxChild(tree);
+		return node->value;
+	}
+	
 	int Size() {
 		x = 0;
 		inOrder(tree, 0);
@@ -350,13 +360,66 @@ struct BinarySearchTree
 			strs[width - distance][depth * 2 +  val.length()] = '<';
 		}
 	}
+	
+	private: Node* MinChild(Node* node) {
+		while (node->left != nullptr) {
+			node = node->left;
+		}
+		return node;
+	}
+
+	private: Node* MaxChild(Node* node) {
+		while (node->right != nullptr) {
+			node = node->right;
+		}
+		return node;
+	}
+
+	private: Node* Parent(Node* node) {
+		Node* parent = nullptr;
+		Node* temp = tree;
+		while (node->value != temp->value) {
+			if (node->value < temp->value) {
+				parent = temp;
+				temp = temp->left;
+			}
+			else {
+				parent = temp;
+				temp = temp->right;
+			}
+		}
+		return parent;
+	}
+
+	private : Node* Predecessor(Node* node) {
+		if (node->left != nullptr){
+			return MaxChild(node->left);
+		}
+
+		Node* parent = Parent(node);
+		while (parent != nullptr && node == parent->left) {
+			node = parent;
+			parent = Parent(node);
+		}
+		return parent;
+	}
+	
+	private : Node* Successor(Node* node) {
+		if (node->right != nullptr) {
+			return MinChild(node->right);
+		}
+
+		Node* parent = Parent(node);
+		while (parent != nullptr && node == parent->right) {
+			node = parent;
+			parent = Parent(node);
+		}
+		return parent;
+	}
 };
 
 int main()
 {
-	//make size, width and length methods to make printing possible
-	//(arr of str, str[width], str[how far right] = distance from length 0 * "whitespace" + value)
-	//make some sort of print method to make sure elements are inserted in the right order
 	cout << "Hello World!\n";
 	BinarySearchTree BST{};
 	BST.Insert(4);
@@ -368,6 +431,8 @@ int main()
 	BST.Insert(11);
 	BST.Insert(14);
 	BST.Insert(15);
+	cout << "Min = " << BST.Min() << "\n";
+	cout << "Max = " << BST.Max() << "\n";
 	cout << "Size = " << BST.Size() << "\n";
 	BST.Print();
 	BST.Delete(8);
