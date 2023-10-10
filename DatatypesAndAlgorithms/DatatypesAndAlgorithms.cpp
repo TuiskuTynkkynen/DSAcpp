@@ -163,6 +163,8 @@ struct BinarySearchTree
 	}
 
 	void Delete(int val) {
+		//naïve implementation
+
 		Node* node = tree;
 		Node* parent = tree;
 		while (node != nullptr) {
@@ -171,8 +173,7 @@ struct BinarySearchTree
 			} else if (val < node->value) {
 				parent = node;
 				node = node->left;
-			}
-			else {
+			} else {
 				parent = node;
 				node = node->right;
 			}
@@ -212,6 +213,35 @@ struct BinarySearchTree
 			}
 			return;
 		}
+
+		Node* temp = node->right;
+
+		if (temp->left == nullptr) {
+			temp->left = node->left;
+			if (node->value < parent->value) {
+				delete[] parent->left;
+				parent->left = temp;
+			} else {
+				delete[] parent->right;
+				parent->right = temp;
+			}
+		} else {
+			while (temp->left != nullptr) {
+				temp = temp->left;
+			}
+
+			node->right->left = temp->right;
+			temp->right = node->right;
+			temp->left = node->left;
+			if (node->value < parent->value) {
+				delete[] parent->left;
+				parent->left = temp;
+			} else {
+				delete[] parent->right;
+				parent->right = temp;
+			}
+		}
+		
 	}
 
 	void Free() {
@@ -331,11 +361,16 @@ int main()
 	BinarySearchTree BST{};
 	BST.Insert(4);
 	BST.Insert(2);
-	BST.Insert(1);
-	BST.Insert(3);
+	BST.Insert(8);
 	BST.Insert(6);
-	BST.Insert(5);
-	BST.Insert(7);
+	BST.Insert(12);
+	BST.Insert(10);
+	BST.Insert(11);
+	BST.Insert(14);
+	BST.Insert(15);
+	cout << "Size = " << BST.Size() << "\n";
+	BST.Print();
+	BST.Delete(8);
 	cout << "Size = " << BST.Size() << "\n";
 	BST.Print();
 	for (int i = 0; i < 4; i++) {
