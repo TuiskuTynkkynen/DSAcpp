@@ -163,10 +163,9 @@ struct BinarySearchTree
 	}
 
 	void Delete(int val) {
-		//naïve implementation
-
 		Node* node = tree;
-		Node* parent = tree;
+		Node* parent = nullptr;
+		
 		while (node != nullptr) {
 			if (node->value == val) {
 				break;
@@ -183,57 +182,39 @@ struct BinarySearchTree
 			return;
 		}
 
-		//if deleted node is a leaf node 
-		if (node->left == nullptr && node->right == nullptr) {
-			if (node->value < parent->value) { //if deleted node is left child
-				delete[] parent->left;
-				parent->left = nullptr;
-			} else {                           //else deleted node is right child
-				delete[] parent->right;
-				parent->right = nullptr;
-			}
-			return;
-		}
+		//if deleted node doesn't have two child nodes 
+		if (!(node->left != nullptr && node->right != nullptr)) {
+			Node* temp = nullptr;
 
-		//if deleted node has only one child node 
-		if (node->left == nullptr || node->right == nullptr) {
-			Node* temp;
 			if (node->left != nullptr) { //if deleted node has left child
 				temp = node->left;
-			} else {                     //else deleted node has right child
+			} else if (node->right != nullptr) { //if deleted node has right child
 				temp = node->right;
 			}
 				
-			if (node->value < parent->value) { //replace left child of parent node
+			if (parent == nullptr) {  //replace tree
+				delete[] tree;
+				tree = temp;
+			} else if (node->value < parent->value) { //replace left child of parent node or nullptr
 				delete[] parent->left;
 				parent->left = temp;
-			} else {                           //replace right child of parent node
+			} else {                           //replace right child of parent node or nullptr
 				delete[] parent->right;
 				parent->right = temp;
 			}
-			return;
-		}
+		} else {  //else deleted node has two child nodes 
+			Node* temp = Successor(node);
 
-		Node* temp = node->right;
+			if (node->right != temp) { //if temp is NOT child of deleted node
+				Parent(temp)->left = temp->right;
+				temp->right = node->right;
+			} 
 
-		if (temp->left == nullptr) {
 			temp->left = node->left;
-			if (node->value < parent->value) {
-				delete[] parent->left;
-				parent->left = temp;
-			} else {
-				delete[] parent->right;
-				parent->right = temp;
-			}
-		} else {
-			while (temp->left != nullptr) {
-				temp = temp->left;
-			}
-
-			node->right->left = temp->right;
-			temp->right = node->right;
-			temp->left = node->left;
-			if (node->value < parent->value) {
+			if (parent == nullptr) {  //replace tree
+				delete[] tree;
+				tree = temp;
+			} else if (node->value < parent->value) {
 				delete[] parent->left;
 				parent->left = temp;
 			} else {
@@ -241,12 +222,11 @@ struct BinarySearchTree
 				parent->right = temp;
 			}
 		}
-		
 	}
 
 	void Free() {
 		Node* node = tree;
-		Node* parent = tree;
+		Node* parent = nullptr;
 		while (node->left != nullptr || node->right != nullptr) {
 			parent = node;
 			if (node->left != nullptr) {
@@ -256,7 +236,11 @@ struct BinarySearchTree
 			}
 		}
 
-		if (node->value < parent->value) {
+		if (parent == nullptr) {
+			cout << "freed root node with value: " << tree->value << "\n";
+			delete[] tree;
+			tree = nullptr;
+		} else if (node->value < parent->value) {
 			cout << "freed node with value: " << parent->left->value << "\n";
 			delete[] parent->left;
 			parent->left = nullptr;
@@ -266,10 +250,6 @@ struct BinarySearchTree
 			delete[] parent->right;
 			parent->right = nullptr;
 			Free();
-		} else if (tree->left == nullptr && tree->right == nullptr){
-			cout << "freed root node with value: " << tree->value << "\n";
-			delete[] tree;
-			tree = nullptr;
 		}
 	}
 
@@ -357,7 +337,13 @@ struct BinarySearchTree
 			for (int i = 0; i < val.length(); i++) {
 				strs[width - distance][depth*2 + i] = (strs[width - distance][depth * 2 + i] == ' ') ? val[i] : '?';
 			}
-			strs[width - distance][depth * 2 +  val.length()] = '<';
+			if (node->left != nullptr && node->right != nullptr) {
+				strs[width - distance][depth * 2 +  val.length()] = '<';
+			} else if (node->left != nullptr){
+				strs[width - distance][depth * 2 + val.length()] = 217;
+			} else if (node->right != nullptr){
+				strs[width - distance][depth * 2 +  val.length()] = 191;
+			}
 		}
 	}
 	
@@ -424,6 +410,7 @@ int main()
 	BinarySearchTree BST{};
 	BST.Insert(4);
 	BST.Insert(2);
+	BST.Insert(1);
 	BST.Insert(8);
 	BST.Insert(6);
 	BST.Insert(12);
