@@ -138,27 +138,27 @@ struct BinarySearchTree
 	void Insert(int val) {
 		Node* node = new Node;
 		node->value = val;
+
 		if (tree == nullptr) {
 			tree = node;
 			return;
 		}
 
-		Node* next = tree;
+		Node* parent = nullptr;
 		Node* temp = tree;
-		while (next != nullptr) {
-			if (val < next->value) {
-				temp = next;
-				next = next->left;
+		while (temp != nullptr) {
+			parent = temp;
+			if (val < temp->value) {
+				temp = temp->left;
 			} else {
-				temp = next;
-				next = next->right;
+				temp = temp->right;
 			}
 		}
 
-		if (val < temp->value) {
-			temp->left = node;
-		} else if (val > temp->value) {
-			temp->right = node;
+		if (val < parent->value) {
+			parent->left = node;
+		} else if (val > parent->value) {
+			parent->right = node;
 		}
 	}
 
@@ -245,26 +245,26 @@ struct BinarySearchTree
 	}
 
 	void Free() {
-		Node* next = tree;
-		Node* temp = tree;
-		while (next->left != nullptr || next->right != nullptr) {
-			temp = next;
-			if (next->left != nullptr) {
-				next = next->left;
+		Node* node = tree;
+		Node* parent = tree;
+		while (node->left != nullptr || node->right != nullptr) {
+			parent = node;
+			if (node->left != nullptr) {
+				node = node->left;
 			} else{ 
-				next = next->right;
+				node = node->right;
 			}
 		}
 
-		if (next->value < temp->value) {
-			cout << "freed node with value: " << temp->left->value << "\n";
-			delete[] temp->left;
-			temp->left = nullptr;
+		if (node->value < parent->value) {
+			cout << "freed node with value: " << parent->left->value << "\n";
+			delete[] parent->left;
+			parent->left = nullptr;
 			Free();
-		} else if (next->value > temp->value) {
-			cout << "freed node with value: " << temp->right->value << "\n";
-			delete[] temp->right;
-			temp->right = nullptr;
+		} else if (node->value > parent->value) {
+			cout << "freed node with value: " << parent->right->value << "\n";
+			delete[] parent->right;
+			parent->right = nullptr;
 			Free();
 		} else if (tree->left == nullptr && tree->right == nullptr){
 			cout << "freed root node with value: " << tree->value << "\n";
@@ -318,17 +318,17 @@ struct BinarySearchTree
 		delete[] strs;
 	}
 
-	private : void inOrder(Node* node, int width1) {
+	private : void inOrder(Node* node, int tempwidth) {
 		if (node != nullptr) {
-			inOrder(node->left, width1);
-			width1++;
+			inOrder(node->left, tempwidth);
+			tempwidth++;
 			x++;
-			inOrder(node->right, width1);
-			width1--;
+			inOrder(node->right, tempwidth);
+			tempwidth--;
 		}
 
-		if (abs(width1) > width) {
-			width = abs(width1);
+		if (abs(tempwidth) > width) {
+			width = abs(tempwidth);
 		}
 	}
 
