@@ -2,6 +2,7 @@
 #include <string> 
 #include "linkedlist.h"
 #include "binarysearchtree.h"
+#include "redblacktree.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -53,9 +54,23 @@ void TestBinarySearchTree() {
 	BST.Free();
 }
 
+void TestRedBlackTree() {
+	redblacktree::RedBlackTree RBTree;
+	RBTree.Insert(4);
+	RBTree.Insert(6);
+	RBTree.Insert(5);
+	RBTree.Insert(7);
+	RBTree.Insert(2);
+	RBTree.Print();
+	RBTree.TestRotation(4, 0);
+	RBTree.Print();
+	RBTree.Free();
+}
+
 int main()
 {
 	cout << "Hello World!\n";
 	//TestLinkedList();
-	TestBinarySearchTree();
+	//TestBinarySearchTree();
+	TestRedBlackTree();
 }

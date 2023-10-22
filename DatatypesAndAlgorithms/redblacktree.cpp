@@ -1,8 +1,10 @@
 #include "redblacktree.h"
+#include <iostream>
+#include <string>
 
 	enum RedBlackTree::direction{
-		left = 0,
-		right = 1
+		LEFT = 0,
+		RIGHT = 1
 	};
 	
 	struct RedBlackTree::Node
@@ -10,22 +12,174 @@
 		int value;
 		direction nodeDirection;
 		Node* parent = nullptr;
-		Node* left = nullptr;
-		Node* right = nullptr;
+		Node* child[2] = {nullptr, nullptr};
+		#define left child[LEFT]
+		#define right child[RIGHT]
 	};
 
 	void RedBlackTree::Insert(int val) {
 		Node* node = new Node;
 		node->value = val;
-		
+
 		if (root == nullptr) {
 			root = node;
 			return;
 		}
+
+		Node* parent = nullptr;
+		Node* temp = root;
+		while (temp != nullptr) {
+			parent = temp;
+			if (val < temp->value) {
+				temp = temp->left;
+			}
+			else {
+				temp = temp->right;
+			}
+		}
+		if (val < parent->value) {
+			parent->left = node;
+		}
+		else if (val > parent->value) {
+			parent->right = node;
+		}
+	}
+
+	void RedBlackTree::Free() {
+		Node* node = root;
+		Node* parent = nullptr;
+		while (node->left != nullptr || node->right != nullptr) {
+			parent = node;
+			if (node->left != nullptr) {
+				node = node->left;
+			}
+			else {
+				node = node->right;
+			}
+		}
+
+		if (parent == nullptr) {
+			std::cout << "freed root node with value: " << root->value << "\n";
+			delete[] root;
+			root = nullptr;
+		}
+		else if (node->value < parent->value) {
+			std::cout << "freed node with value: " << parent->left->value << "\n";
+			delete[] parent->left;
+			parent->left = nullptr;
+			Free();
+		}
+		else if (node->value > parent->value) {
+			std::cout << "freed node with value: " << parent->right->value << "\n";
+			delete[] parent->right;
+			parent->right = nullptr;
+			Free();
+		}
+	}
+
+	void RedBlackTree::TestRotation(int val, int dir) {
+		Node* node = root;
+		Node* next = root;
+		while (val != node->value) {
+			node = next;
+			if (val < node->value) {
+				next = node->left;
+			} else {
+				next = node->right;
+			}
+
+			if (next == nullptr) {
+				return;
+			}
+		}
+		if (dir == 0) {
+			Rotate(node, LEFT);
+		} else {
+			Rotate(node, RIGHT);
+		}
 	}
 
 	void RedBlackTree::Rotate(Node* node, direction rotationDirection) {
-		if (rotationDirection == left) {
+		direction nodeDirection = node->nodeDirection;
 
+		Node* temp = node->child[1-rotationDirection];
+		if (temp == nullptr) {
+			return;
+		}
+
+		if (node->parent == nullptr) {
+			root = temp;
+		} else {
+			node->parent->child[nodeDirection] = temp;
+		}
+
+		node->child[1 - rotationDirection] = temp->child[rotationDirection];
+		temp->child[rotationDirection] = node; 
+	}
+
+	void RedBlackTree::Print() {
+		size = 0;
+		width = 0;
+		TraverseInOrder(root, 0);
+		strs = new std::string[width * 2];
+		std::cout << "Red-black tree: \n";
+		PrintTraverse(root, 0);
+		for (int i = 0; i < width * 2; i++) {
+			if (!strs[i].empty()) {
+				std::cout << strs[i] << "\n";
+			}
+		}
+		delete[] strs;
+	}
+	
+	void RedBlackTree::TraverseInOrder(Node* node, int tempwidth) {
+		if (node != nullptr) {
+			TraverseInOrder(node->left, tempwidth);
+			tempwidth++;
+			size++;
+			TraverseInOrder(node->right, tempwidth);
+			tempwidth--;
+		}
+
+		if (abs(tempwidth) > width) {
+			width = abs(tempwidth);
+		}
+	}
+
+	void RedBlackTree::PrintTraverse(Node* node, int depth) {
+		if (node != nullptr) {
+			depth++;
+			PrintTraverse(node->left, depth);
+			PrintTraverse(node->right, depth);
+			depth--;
+
+			int distance = 0;
+			Node* temp = root;
+			while (node->value != temp->value) {
+				if (node->value < temp->value) {
+					temp = temp->left;
+					distance++;
+				}
+				else {
+					temp = temp->right;
+					distance--;
+				}
+			}
+			while (strs[width - distance].length() < 3 * depth + 1) {
+				strs[width - distance] += " ";
+			}
+			std::string val = std::to_string(node->value);
+			for (int i = 0; i < val.length(); i++) {
+				strs[width - distance][depth * 2 + i] = (strs[width - distance][depth * 2 + i] == ' ') ? val[i] : '?';
+			}
+			if (node->left != nullptr && node->right != nullptr) {
+				strs[width - distance][depth * 2 + val.length()] = '<';
+			}
+			else if (node->left != nullptr) {
+				strs[width - distance][depth * 2 + val.length()] = 217;
+			}
+			else if (node->right != nullptr) {
+				strs[width - distance][depth * 2 + val.length()] = 191;
+			}
 		}
 	}
