@@ -39,10 +39,14 @@
 		}
 		if (val < parent->value) {
 			parent->left = node;
+			node->nodeDirection = LEFT;
 		}
 		else if (val > parent->value) {
 			parent->right = node;
+			node->nodeDirection = RIGHT;
 		}
+
+		node->parent = parent;
 	}
 
 	void RedBlackTree::Free() {
