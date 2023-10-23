@@ -5,6 +5,7 @@
 struct RedBlackTree{
 	private:
 		enum direction;
+		enum colour;
 		struct Node;
 		Node* root = nullptr;
 		int size = 0;
@@ -13,13 +14,13 @@ struct RedBlackTree{
 
 		void Rotate(Node* node, direction rotationDirection);
 		void TraverseInOrder(Node* node, int tempwidth);
-		void PrintTraverse(Node* node, int depth);
+		void PrintTraverse(Node* node, int depth, int mode);
 
 	public: 
 		void Insert(int val);
 		void Free();
 		void TestRotation(int val, int dir);
-		void Print();
+		void Print(int mode);
 };
 
 #endif

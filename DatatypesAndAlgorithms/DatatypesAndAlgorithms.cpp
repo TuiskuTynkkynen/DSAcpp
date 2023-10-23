@@ -61,9 +61,11 @@ void TestRedBlackTree() {
 	RBTree.Insert(5);
 	RBTree.Insert(7);
 	RBTree.Insert(2);
-	RBTree.Print();
+	RBTree.Print(1);
+	RBTree.Print(0);
 	RBTree.TestRotation(6,1);
-	RBTree.Print();
+	RBTree.Print(1);
+	RBTree.Print(0);
 	RBTree.Free();
 }
 

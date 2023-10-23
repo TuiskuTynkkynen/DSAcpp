@@ -6,10 +6,16 @@
 		LEFT = 0,
 		RIGHT = 1
 	};
+
+	enum RedBlackTree::colour{
+		BLACK = 0,
+		RED = 1
+	};
 	
 	struct RedBlackTree::Node
 	{
 		int value;
+		colour nodeColour;
 		direction nodeDirection;
 		Node* parent = nullptr;
 		Node* child[2] = {nullptr, nullptr};
@@ -20,6 +26,8 @@
 	void RedBlackTree::Insert(int val) {
 		Node* node = new Node;
 		node->value = val;
+		node->parent = nullptr;
+		node->nodeColour = BLACK;
 
 		if (root == nullptr) {
 			root = node;
@@ -37,6 +45,12 @@
 				temp = temp->right;
 			}
 		}
+
+		node->parent = parent;
+		if (parent->nodeColour == BLACK) {
+			node->nodeColour = RED;
+		}
+
 		if (val < parent->value) {
 			parent->left = node;
 			node->nodeDirection = LEFT;
@@ -46,7 +60,6 @@
 			node->nodeDirection = RIGHT;
 		}
 
-		node->parent = parent;
 	}
 
 	void RedBlackTree::Free() {
@@ -121,13 +134,13 @@
 		temp->child[rotationDirection] = node; 
 	}
 
-	void RedBlackTree::Print() {
+	void RedBlackTree::Print(int mode) {
 		size = 0;
 		width = 0;
 		TraverseInOrder(root, 0);
 		strs = new std::string[width * 2];
 		std::cout << "Red-black tree: \n";
-		PrintTraverse(root, 0);
+		PrintTraverse(root, 0, mode);
 		for (int i = 0; i < width * 2; i++) {
 			if (!strs[i].empty()) {
 				std::cout << strs[i] << "\n";
@@ -150,11 +163,11 @@
 		}
 	}
 
-	void RedBlackTree::PrintTraverse(Node* node, int depth) {
+	void RedBlackTree::PrintTraverse(Node* node, int depth, int mode) {
 		if (node != nullptr) {
 			depth++;
-			PrintTraverse(node->left, depth);
-			PrintTraverse(node->right, depth);
+			PrintTraverse(node->left, depth, mode);
+			PrintTraverse(node->right, depth, mode);
 			depth--;
 
 			int distance = 0;
@@ -169,10 +182,18 @@
 					distance--;
 				}
 			}
+			
 			while (strs[width - distance].length() < 3 * depth + 1) {
 				strs[width - distance] += " ";
 			}
-			std::string val = std::to_string(node->value);
+			
+			std::string val;
+			if (mode == 0) {
+				val = std::to_string(node->value);
+			} else {
+				val = (node->nodeColour == BLACK)? "B" : "R";
+			}
+			
 			for (int i = 0; i < val.length(); i++) {
 				strs[width - distance][depth * 2 + i] = (strs[width - distance][depth * 2 + i] == ' ') ? val[i] : '?';
 			}
