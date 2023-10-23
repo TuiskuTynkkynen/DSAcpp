@@ -27,9 +27,9 @@
 		Node* node = new Node;
 		node->value = val;
 		node->parent = nullptr;
-		node->nodeColour = BLACK;
 
 		if (root == nullptr) {
+			node->nodeColour = BLACK;
 			root = node;
 			return;
 		}
@@ -47,9 +47,7 @@
 		}
 
 		node->parent = parent;
-		if (parent->nodeColour == BLACK) {
-			node->nodeColour = RED;
-		}
+		node->nodeColour = RED;
 
 		if (val < parent->value) {
 			parent->left = node;
@@ -60,6 +58,43 @@
 			node->nodeDirection = RIGHT;
 		}
 
+		FixInsertion(node);
+	}
+	
+	void RedBlackTree::FixInsertion(Node* node) {
+		Node* parent = node->parent;
+		Node* grandParent;
+		Node* uncle;
+		direction parentDirection;
+		direction reverseDirection;
+		while (parent != nullptr && parent->nodeColour == RED) { //Parent is red and not root
+			grandParent = parent->parent;
+			if (grandParent == nullptr) {
+				break;
+			}
+			parentDirection = parent->nodeDirection;
+			reverseDirection = static_cast<direction>(1 - parentDirection);
+			uncle = grandParent->child[reverseDirection];
+
+			if (uncle == nullptr || uncle->nodeColour == BLACK) { //uncle is or is considered black
+				if (node->nodeDirection == reverseDirection) {
+					node = parent;
+					Rotate(node, parentDirection);
+					parent = grandParent->child[parentDirection];
+				}
+				Rotate(grandParent, reverseDirection);
+				parent->nodeColour = BLACK;
+				grandParent->nodeColour = RED;
+			}
+			else {
+				uncle->nodeColour = BLACK;
+				parent->nodeColour = BLACK;
+				grandParent->nodeColour = RED;
+				node = grandParent;
+				parent = node->parent;
+			}
+		}
+		root->nodeColour = BLACK;
 	}
 
 	void RedBlackTree::Free() {
@@ -93,7 +128,7 @@
 			Free();
 		}
 	}
-
+	 
 	void RedBlackTree::TestRotation(int val, int dir) {
 		Node* node = root;
 		Node* next = root;
@@ -117,21 +152,33 @@
 	}
 
 	void RedBlackTree::Rotate(Node* node, direction rotationDirection) {
-		direction nodeDirection = node->nodeDirection;
-
-		Node* temp = node->child[1-rotationDirection];
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//std::cout << node->value << "/" << rotationDirection << "\n";
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		direction reverseDirection = static_cast<direction>(1 - rotationDirection);
+		
+		Node* temp = node->child[reverseDirection];
 		if (temp == nullptr) {
 			return;
 		}
 
+		node->child[reverseDirection] = temp->child[rotationDirection];
+		if (temp->child[rotationDirection] != nullptr) {
+			temp->child[rotationDirection]->parent = node;
+			temp->child[rotationDirection]->nodeDirection = reverseDirection;
+		}
+
+		temp->parent = node->parent;
 		if (node->parent == nullptr) {
 			root = temp;
 		} else {
-			node->parent->child[nodeDirection] = temp;
+			node->parent->child[node->nodeDirection] = temp;
+			temp->nodeDirection = node->nodeDirection;
 		}
 
-		node->child[1 - rotationDirection] = temp->child[rotationDirection];
-		temp->child[rotationDirection] = node; 
+		temp->child[rotationDirection] = node;
+		node->parent = temp;
+		node->nodeDirection = rotationDirection;
 	}
 
 	void RedBlackTree::Print(int mode) {
