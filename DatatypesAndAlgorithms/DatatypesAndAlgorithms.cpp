@@ -56,6 +56,19 @@ void TestBinarySearchTree() {
 
 void TestRedBlackTree() {
 	redblacktree::RedBlackTree RBTree;
+	int num;
+	cout << "How many numbers to try? ";
+	cin >> num;
+	for (int i = 1; i <= num; i++) {
+		RBTree.Insert(i);
+	}
+	RBTree.Print(1);
+	RBTree.Print(0);
+	for (int i = 1; i <= num; i++) {
+		RBTree.Delete(i);
+	}
+	RBTree.Free();
+	return;
 	RBTree.Insert(4);
 	RBTree.Insert(6);
 	RBTree.Insert(5);
@@ -64,16 +77,17 @@ void TestRedBlackTree() {
 	RBTree.Insert(8);
 	RBTree.Insert(9);
 	RBTree.Insert(10);
-	RBTree.Insert(11);
+	/*RBTree.Insert(11);
 	RBTree.Insert(12);
 	RBTree.Insert(13);
 	RBTree.Insert(14);
 	RBTree.Insert(15);
-	RBTree.Insert(16);
+	RBTree.Insert(16);*/
 	RBTree.Print(1);
 	RBTree.Print(0);
-	//RBTree.TestRotation(6,1);
-	//RBTree.Print(0);
+	RBTree.Delete(4);
+	RBTree.Print(1);
+	RBTree.Print(0);
 	RBTree.Free();
 }
 

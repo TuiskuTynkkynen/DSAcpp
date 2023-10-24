@@ -13,6 +13,7 @@ struct RedBlackTree{
 		std::string* strs;
 
 		void FixInsertion(Node* node);
+		void FixDeletion(Node* node, Node* parent, direction dir);
 		void Rotate(Node* node, direction rotationDirection);
 		void TraverseInOrder(Node* node, int tempwidth);
 		void PrintTraverse(Node* node, int depth, int mode);

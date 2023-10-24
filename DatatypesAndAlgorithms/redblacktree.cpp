@@ -117,8 +117,10 @@
 			return;
 		}
 
+		colour originalColour = node->nodeColour;
 		//if deleted node doesn't have two child nodes 
 		if (!(node->left != nullptr && node->right != nullptr)) {
+			direction dir = node->nodeDirection;
 			Node* temp = nullptr;
 
 			if (node->left != nullptr) { //if deleted node has left child
@@ -132,9 +134,10 @@
 				root = temp;
 				if (temp != nullptr) {
 					temp->parent = nullptr;
+				} else {
+					return;
 				}
 			} else {                           //replace right child of parent node or nullptr
-				direction dir = node->nodeDirection;
 				delete[] parent->child[dir];
 				parent->child[dir] = temp;
 				if (temp != nullptr) {
@@ -142,20 +145,38 @@
 					temp->nodeDirection = dir;
 				}
 			}
+
+			if (originalColour == BLACK) {
+				FixDeletion(temp, parent, dir);
+			}
 		} else {  //else deleted node has two child nodes 
 			Node* temp = Successor(node);
+			//originalColour = temp->nodeColour;
+			Node* tempRight = temp->right;
+			Node* tempParent = temp;
 
 			if (node->right != temp) { //if temp is NOT child of deleted node
-				temp->parent->left = temp->right;
+				temp->parent->left = tempRight;
+				tempParent = temp->parent;
+				if (tempRight != nullptr) {
+					tempRight->parent = temp->parent;
+					tempRight->nodeDirection = LEFT;
+				}
+
 				temp->right = node->right;
+				node->right->parent = temp;
 			}
 
 			temp->left = node->left;
 			if (parent == nullptr) {  //replace tree
+				root->left->parent = temp;
+				root->right->parent = temp;
 				delete[] root;
 				root = temp;
 				if (temp != nullptr) {
 					temp->parent = nullptr;
+				} else {
+					return;
 				}
 			} else {
 				direction dir = node->nodeDirection;
@@ -166,10 +187,70 @@
 					temp->nodeDirection = dir;
 				}
 			}
+
+			if (originalColour == BLACK) {
+				FixDeletion(temp, tempParent, RIGHT);
+			}
 		}
 	}
 
+	void RedBlackTree::FixDeletion(Node* node, Node* parent, direction dir) {
+		//DOESN'T WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		direction reverseDir;
+		Node* sibling;
+
+		while (node != root && (node == nullptr || node->nodeColour == BLACK)) {
+			if (node != nullptr) {
+				dir = node->nodeDirection;
+			}
+			reverseDir = static_cast<direction>(1 - dir);
+			
+			sibling = parent->child[reverseDir];
+
+			std::cout << node << "/" << parent << "/" << sibling << "\n";
+			int nval = (node != nullptr) ? node->value : 0;
+			int pval = (parent != nullptr) ? parent->value : 0;
+			int sval = (sibling != nullptr) ? sibling->value : 0;
+			std::cout << nval << "/" << pval << "/" << sval << "\n";
+			if (sibling->nodeColour == RED) {
+				sibling->nodeColour = BLACK;
+				parent->nodeColour = RED;
+				Rotate(parent, dir);
+				sibling = parent->child[reverseDir];
+			}
+
+			bool isSiblingLeftBlack = (sibling->left == nullptr || sibling->left->nodeColour == BLACK);
+			bool isSiblingRightBlack = (sibling->right == nullptr || sibling->right->nodeColour == BLACK);
+			if (isSiblingLeftBlack && isSiblingRightBlack) {
+				std::cout << "\n";
+				sibling->nodeColour = RED;
+				node = parent;
+				parent = node->parent;
+			} else {
+				parent = node->parent;
+				if (sibling->child[reverseDir]->nodeColour == BLACK) {
+					sibling->child[dir]->nodeColour = BLACK;
+					sibling->nodeColour = RED;
+					Rotate(sibling, reverseDir);
+					sibling = parent->child[reverseDir];
+				}
+
+				sibling->nodeColour = parent->nodeColour;
+				parent->nodeColour = BLACK;
+				sibling->child[reverseDir]->nodeColour = BLACK;
+				Rotate(parent, dir);
+				node = root;
+			}
+
+		}
+		node->nodeColour = BLACK;
+	}
+
 	void RedBlackTree::Free() {
+		if (root == nullptr) {
+			return;
+		}
+
 		Node* node = root;
 		Node* parent = nullptr;
 		while (node->left != nullptr || node->right != nullptr) {
@@ -186,14 +267,12 @@
 			std::cout << "freed root node with value: " << root->value << "\n";
 			delete[] root;
 			root = nullptr;
-		}
-		else if (node->value < parent->value) {
+		} else if (node->value < parent->value) {
 			std::cout << "freed node with value: " << parent->left->value << "\n";
 			delete[] parent->left;
 			parent->left = nullptr;
 			Free();
-		}
-		else if (node->value > parent->value) {
+		} else if (node->value > parent->value) {
 			std::cout << "freed node with value: " << parent->right->value << "\n";
 			delete[] parent->right;
 			parent->right = nullptr;
@@ -248,6 +327,18 @@
 		temp->child[rotationDirection] = node;
 		node->parent = temp;
 		node->nodeDirection = rotationDirection;
+
+		std::cout << "temp = " << temp->value;
+		if (temp->parent != nullptr)
+		{
+			std::cout << " temp parent = " << temp->parent->value;
+		}
+		std::cout << "\n node = " << node->value;
+		if (node->parent != nullptr)
+		{
+			std::cout << " node parent = " << node->parent->value;
+		}
+		std::cout << "\n";
 	}
 
 	void RedBlackTree::Print(int mode) {
