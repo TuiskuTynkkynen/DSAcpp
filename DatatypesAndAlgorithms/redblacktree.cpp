@@ -97,6 +97,78 @@
 		root->nodeColour = BLACK;
 	}
 
+	void RedBlackTree::Delete(int val) {
+		Node* node = root;
+		Node* parent = nullptr;
+
+		while (node != nullptr) {
+			if (node->value == val) {
+				break;
+			} else if (val < node->value) {
+				parent = node;
+				node = node->left;
+			} else {
+				parent = node;
+				node = node->right;
+			}
+		}
+
+		if (node == nullptr) {
+			return;
+		}
+
+		//if deleted node doesn't have two child nodes 
+		if (!(node->left != nullptr && node->right != nullptr)) {
+			Node* temp = nullptr;
+
+			if (node->left != nullptr) { //if deleted node has left child
+				temp = node->left;
+			} else if (node->right != nullptr) { //if deleted node has right child
+				temp = node->right;
+			}
+
+			if (parent == nullptr) {  //replace tree
+				delete[] root;
+				root = temp;
+				if (temp != nullptr) {
+					temp->parent = nullptr;
+				}
+			} else {                           //replace right child of parent node or nullptr
+				direction dir = node->nodeDirection;
+				delete[] parent->child[dir];
+				parent->child[dir] = temp;
+				if (temp != nullptr) {
+					temp->parent = parent;
+					temp->nodeDirection = dir;
+				}
+			}
+		} else {  //else deleted node has two child nodes 
+			Node* temp = Successor(node);
+
+			if (node->right != temp) { //if temp is NOT child of deleted node
+				temp->parent->left = temp->right;
+				temp->right = node->right;
+			}
+
+			temp->left = node->left;
+			if (parent == nullptr) {  //replace tree
+				delete[] root;
+				root = temp;
+				if (temp != nullptr) {
+					temp->parent = nullptr;
+				}
+			} else {
+				direction dir = node->nodeDirection;
+				delete[] parent->child[dir];
+				parent->child[dir] = temp;
+				if (temp != nullptr) {
+					temp->parent = parent;
+					temp->nodeDirection = dir;
+				}
+			}
+		}
+	}
+
 	void RedBlackTree::Free() {
 		Node* node = root;
 		Node* parent = nullptr;
@@ -152,9 +224,6 @@
 	}
 
 	void RedBlackTree::Rotate(Node* node, direction rotationDirection) {
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//std::cout << node->value << "/" << rotationDirection << "\n";
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		direction reverseDirection = static_cast<direction>(1 - rotationDirection);
 		
 		Node* temp = node->child[reverseDirection];
@@ -254,4 +323,44 @@
 				strs[width - distance][depth * 2 + val.length()] = 191;
 			}
 		}
+	}
+
+	RedBlackTree::Node* RedBlackTree::MinChild(Node* node) {
+		while (node->left != nullptr) {
+			node = node->left;
+		}
+		return node;
+	}
+
+	RedBlackTree::Node* RedBlackTree::MaxChild(Node* node) {
+		while (node->right != nullptr) {
+			node = node->right;
+		}
+		return node;
+	}
+
+	RedBlackTree::Node* RedBlackTree::Predecessor(Node* node) {
+		if (node->left != nullptr) {
+			return MaxChild(node->left);
+		}
+
+		Node* parent = node->parent;
+		while (parent != nullptr && node->nodeDirection == LEFT) {
+			node = parent;
+			parent = node->parent;
+		}
+		return parent;
+	}
+
+	RedBlackTree::Node* RedBlackTree::Successor(Node* node) {
+		if (node->right != nullptr) {
+			return MinChild(node->right);
+		}
+
+		Node* parent = node->parent;
+		while (parent != nullptr && node->nodeDirection == RIGHT) {
+			node = parent;
+			parent = node->parent;
+		}
+		return parent;
 	}
