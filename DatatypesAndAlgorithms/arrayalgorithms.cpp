@@ -45,6 +45,36 @@
 		std::cout << "\n";
 	}
 
+	int Array::LinearSearch(int val) {
+		for (int i = 0; i < length; i++) {
+			if (array[i] == val) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	int Array::BinarySearch(int val) {
+		int lowerBound = 0;
+		int upperBound = length;
+		int middle;
+
+		while (lowerBound < upperBound)
+		{
+			middle = lowerBound + (upperBound - lowerBound) / 2;
+			if (array[middle] < val) {
+				lowerBound = middle + 1;
+			}
+			else if (array[middle] > val) {
+				upperBound = middle;
+			}
+			else {
+				return middle;
+			}
+		}
+		return -1;
+	}
+
 	Array::ArrayRefrence Array::operator[](int index) {
 		return ArrayRefrence{this, index};
 	}

@@ -23,7 +23,8 @@ class Array
 		ArrayRefrence operator[](int index);
 		void InitializeRadomValues();
 		void PrintArray();
-		
+		int LinearSearch(int val);
+		int BinarySearch(int val);
 };
 
 #endif

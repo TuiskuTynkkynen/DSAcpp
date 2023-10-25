@@ -101,4 +101,8 @@ int main()
 	arrayalgorithms::Array arr(10);
 	arr.InitializeRadomValues();
 	arr.PrintArray();
+	cout << "Index of 1 = " << arr.LinearSearch(1) << "\n";
+	cout << "Index of 6 = " << arr.LinearSearch(6) << "\n";
+	cout << "Index of 1 = " << arr.BinarySearch(1) << "\n";
+	cout << "Index of 6 = " << arr.BinarySearch(6) << "\n";
 }
