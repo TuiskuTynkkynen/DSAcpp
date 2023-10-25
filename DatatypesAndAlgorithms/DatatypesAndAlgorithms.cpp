@@ -33,8 +33,10 @@ void TestQueue() {
 	q.Enqueue(3);
 	q.Enqueue(8);
 	q.Enqueue(1);
-	cout << "Dq = " << q.Dequeue() << "\n";
-	cout << "Dq = " << q.Dequeue() << "\n";
+	cout << "Dq = " << q.Deque() << "\n";
+	cout << "Dq = " << q.Deque() << "\n";
+	cout << "Peek = " << q.Peek() << "\n";
+	cout << "Peek = " << q.Peek() << "\n";
 }
 
 void TestBinarySearchTree() {

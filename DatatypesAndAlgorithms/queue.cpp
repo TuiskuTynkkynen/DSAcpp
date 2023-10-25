@@ -5,7 +5,7 @@
 		std::cout << "Destructor deleted: ";
 		while (head != nullptr) {
 			std::cout << head << " = " << head->value << ", ";
-			this->Dequeue();
+			this->Deque();
 		}
 	}
 
@@ -20,7 +20,7 @@
 		}
 	}
 
-	int Queue::Dequeue() {
+	int Queue::Deque() {
 		if (head == nullptr) {
 			return -1;
 		}
@@ -37,4 +37,11 @@
 		}
 
 		return value;
+	}
+
+	int Queue::Peek() {
+		if (head == nullptr) {
+			return -1;
+		}
+		return head->value;
 	}

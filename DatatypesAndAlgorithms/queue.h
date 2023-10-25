@@ -18,7 +18,8 @@ class Queue
 	public:
 		~Queue();
 		void Enqueue(int val);
-		int Dequeue();
+		int Deque();
+		int Peek();
 };
 
 #endif
