@@ -134,6 +134,7 @@
     <ClCompile Include="linkedlist.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="redblacktree.cpp" />
+    <ClCompile Include="stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="arrayalgorithms.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="linkedlist.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="redblacktree.h" />
+    <ClInclude Include="stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string> 
 #include "linkedlist.h"
+#include "queue.h"
+#include "stack.h"
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
-#include "queue.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -39,6 +40,21 @@ void TestQueue() {
 	cout << "Queue length = " << q.length << "\n";
 	cout << "Peek = " << q.Peek() << "\n";
 	cout << "Peek = " << q.Peek() << "\n";
+}
+
+void TestStack() {
+	stack::Stack s;
+	s.Push(1);
+	s.Push(2);
+	s.Push(3);
+	s.Push(8);
+	s.Push(5);
+	cout << "Stack length = " << s.length << "\n";
+	cout << "Remove = " << s.Pop() << "\n";
+	cout << "Remove = " << s.Pop() << "\n";
+	cout << "Stack length = " << s.length << "\n";
+	cout << "Peek = " << s.Peek() << "\n";
+	cout << "Peek = " << s.Peek() << "\n";
 }
 
 void TestBinarySearchTree() {
@@ -125,6 +141,8 @@ int main()
 	cout << "Hello World!\n";
 	//TestLinkedList();
 	TestQueue();
+	cout << "\n\n";
+	TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
 	//TestArrayAlgorithms();
