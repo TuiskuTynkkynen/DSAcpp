@@ -1,23 +1,35 @@
 #include "queue.h"
 #include <iostream>
 
-	 Queue::~Queue() {
+	struct Queue::Node {
+		int value;
+		Node* next;
+
+		Node(int val) {
+			value = val;
+			next = nullptr;
+		}
+	};
+
+	Queue::~Queue() {
 		std::cout << "Destructor deleted: ";
 		while (head != nullptr) {
 			std::cout << head << " = " << head->value << ", ";
 			this->Deque();
 		}
+		length = 0;
 	}
 
 	void Queue::Enqueue(int val) {
 		Node* node = new Node(val);
-		if (head == nullptr) {
-			head = node;
-			tail = node;
+		if (tail == nullptr) {
+			tail = head = node;
 		} else {
 			tail->next = node;
 			tail = node;
 		}
+
+		length++;
 	}
 
 	int Queue::Deque() {
@@ -36,6 +48,8 @@
 			tail = nullptr;
 		}
 
+		length--;
+		
 		return value;
 	}
 
