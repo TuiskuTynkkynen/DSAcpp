@@ -134,16 +134,48 @@ void TestArrayAlgorithms() {
 	cout << "Index of 6 = " << arr.LinearSearch(6) << "\n";
 	cout << "Index of 1 = " << arr.BinarySearch(1) << "\n";
 	cout << "Index of 6 = " << arr.BinarySearch(6) << "\n";
+
+	arrayalgorithms::ArrayList arrlist(2);
+	arrlist.Push(1);
+	arrlist.Push(2);
+	arrlist.Push(3);
+	arrlist.PrintArrayList();
+	arrlist.Pop();
+	arrlist.Pop();
+	arrlist.Pop();
+	arrlist.PrintArrayList();
+	arrlist.Enqueue(1);
+	arrlist.Enqueue(2);
+	arrlist.Enqueue(3);
+	arrlist.Enqueue(4);
+	arrlist.Enqueue(5);
+	arrlist.PrintArrayList();
+	arrlist.Deque();
+	arrlist.Deque();
+	arrlist.Deque();
+	arrlist.PrintArrayList();
+	arrlist.Insert(1, 7);
+	arrlist.Insert(1, 6);
+	arrlist.Insert(1, 8);
+	arrlist.Insert(5, 11);
+	arrlist.PrintArrayList();
+	arrlist.Delete(3);
+	arrlist.Delete(1);
+	arrlist.PrintArrayList();
+	cout << "Value at index 1 = " << arrlist[1] << "\n";
+	arrlist[1] = 4;
+	cout << "Value at index 1 = " << arrlist[1] << "\n";
+	cout << "Value at index 10 = " << arrlist[10] << "\n";
 }
 
 int main()
 {
+	//Implement arrayBuffer
 	cout << "Hello World!\n";
 	//TestLinkedList();
-	TestQueue();
-	cout << "\n\n";
-	TestStack();
+	//TestQueue();
+	//TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	//TestArrayAlgorithms();
+	TestArrayAlgorithms();
 }

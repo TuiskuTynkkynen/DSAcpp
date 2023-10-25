@@ -4,6 +4,7 @@
 #include <random>
 #include <chrono>
 
+	
 	Array::Array(int size) 
 		: length(size)
 	{
@@ -99,5 +100,141 @@
 	}
 	
 	Array::ArrayRefrence::operator int(){
+		return target_->get(index_);
+	}
+
+
+	ArrayList::ArrayList(int size)
+	{
+		length = 0;
+		capacity = size;
+		array = new int[size]();
+	}
+
+	ArrayList::~ArrayList() {
+		delete[] array;
+	}
+	
+	int ArrayList::get(unsigned int index) {
+		if (index >= length) {
+			return -1;
+		}
+		return array[index];
+	}
+
+	bool ArrayList::set(unsigned int index, int value) {
+		if (index >= length) {
+			return false;
+		}
+		array[index] = value;
+		return true;
+	}
+
+	void ArrayList::PrintArrayList() {
+		if (length == 0) {
+			std::cout << "Arraylist is empty\n";
+			return;
+		}
+		
+		std::cout << "Arraylist = ";
+		for (int i = 0; i < length; i++) {
+			std::cout << array[i] << ", ";
+		}
+		std::cout << "\n";
+	}
+
+	void ArrayList::Grow() {
+		int* newArray;
+		capacity *= 2;
+		newArray = new int[capacity]();
+		for (int i = 0; i < length; i++) {
+			newArray[i] = array[i];
+		}
+		delete[] array;
+		array = newArray;
+	}
+
+	void ArrayList::Push(int val) {
+		if (length == capacity) {
+			this->Grow();
+		} 
+		array[length] = val;
+		length++;
+	}
+	
+	int ArrayList::Pop() {
+		if (length == 0) {
+			return -1;
+		}
+		return array[length--];
+	}
+
+	void ArrayList::Enqueue(int val) {
+		if (length == capacity) {
+			this->Grow();
+		}
+
+		for(int i = 0; i < length; i++) {
+			array[length - i] = array[length - i - 1];
+		}
+
+		array[0] = val;
+		length++;
+	}
+
+	int ArrayList::Deque() {
+		if (length == 0) {
+			return -1;
+		}
+		
+		for (int i = 0; i < length; i++) {
+			array[i] = array[i + 1];
+		}
+
+		return array[length--];
+	}
+
+	bool ArrayList::Insert(unsigned int index, int val) {
+		if (index > length) {
+			return false;
+		}
+		
+		if (length == capacity) {
+			this->Grow();
+		}
+
+		length++;
+		
+		for (int i = index; i < length; i++) {
+			array[length - i] = array[length - i - 1];
+		}
+
+		array[index] = val;
+		return true;
+	}
+
+	bool ArrayList::Delete(unsigned int index) {
+		if (index >= length) {
+			return false;
+		}
+
+		for (int i = index; i < length; i++) {
+			array[i] = array[i + 1];
+		}
+
+		length--;
+		return true;
+	}
+
+	ArrayList::ArrayRefrence ArrayList::operator[](int index) {
+		return ArrayRefrence{ this, index };
+	}
+
+	ArrayList::ArrayRefrence& ArrayList::ArrayRefrence::operator=(int val) {
+		target_->set(index_, val);
+		return *this;
+	}
+
+	ArrayList::ArrayRefrence::operator int() {
 		return target_->get(index_);
 	}
