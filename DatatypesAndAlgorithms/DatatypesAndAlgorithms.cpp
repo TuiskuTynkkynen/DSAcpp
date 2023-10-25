@@ -4,6 +4,7 @@
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
+#include "queue.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -23,6 +24,17 @@ void TestLinkedList() {
 	list1.Delete(list1.IndexOf(1));
 	list1.PrintList();
 	list1.FreeList();
+}
+
+void TestQueue() {
+	queue::Queue q;
+	q.Enqueue(1);
+	q.Enqueue(2);
+	q.Enqueue(3);
+	q.Enqueue(8);
+	q.Enqueue(1);
+	cout << "Dq = " << q.Dequeue() << "\n";
+	cout << "Dq = " << q.Dequeue() << "\n";
 }
 
 void TestBinarySearchTree() {
@@ -108,7 +120,8 @@ int main()
 {
 	cout << "Hello World!\n";
 	//TestLinkedList();
+	TestQueue();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	TestArrayAlgorithms();
+	//TestArrayAlgorithms();
 }

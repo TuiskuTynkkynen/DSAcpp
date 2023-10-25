@@ -132,12 +132,14 @@
     <ClCompile Include="binarysearchtree.cpp" />
     <ClCompile Include="DatatypesAndAlgorithms.cpp" />
     <ClCompile Include="linkedlist.cpp" />
+    <ClCompile Include="queue.cpp" />
     <ClCompile Include="redblacktree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="arrayalgorithms.h" />
     <ClInclude Include="binarysearchtree.h" />
     <ClInclude Include="linkedlist.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="redblacktree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

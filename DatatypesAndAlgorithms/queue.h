@@ -1,14 +1,14 @@
 #ifndef queue
 #define queue
 
-template<typename T> class Queue
+class Queue
 {
 	private:
 		struct Node {
-			T value;
+			int value;
 			Node* next;
 
-			Node(T val) {
+			Node(int val) {
 				value = val;
 				next = nullptr;
 			}
@@ -17,6 +17,8 @@ template<typename T> class Queue
 		Node* tail = nullptr;
 	public:
 		~Queue();
+		void Enqueue(int val);
+		int Dequeue();
 };
 
 #endif
