@@ -3,6 +3,7 @@
 #include "linkedlist.h"
 #include "binarysearchtree.h"
 #include "redblacktree.h"
+#include "arrayalgorithms.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -96,5 +97,8 @@ int main()
 	cout << "Hello World!\n";
 	//TestLinkedList();
 	//TestBinarySearchTree();
-	TestRedBlackTree();
+	//TestRedBlackTree();
+	arrayalgorithms::Array arr(10);
+	arr.InitializeRadomValues();
+	arr.PrintArray();
 }
