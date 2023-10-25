@@ -25,6 +25,7 @@ class Array
 		void PrintArray();
 		int LinearSearch(int val);
 		int BinarySearch(int val);
+		void BubbleSort();
 };
 
 #endif

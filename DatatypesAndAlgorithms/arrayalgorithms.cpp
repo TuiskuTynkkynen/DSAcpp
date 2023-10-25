@@ -75,6 +75,20 @@
 		return -1;
 	}
 
+	void Array::BubbleSort() {
+		int upperBound = length - 1;
+		while (upperBound > 0) {
+			for (int i = 0; i < upperBound; i++) {
+				if (array[i] > array[i + 1]) {
+					int temp = array[i];
+					array[i] = array[i + 1];
+					array[i + 1] = temp;
+				}
+			}
+			upperBound--;
+		}
+	}
+
 	Array::ArrayRefrence Array::operator[](int index) {
 		return ArrayRefrence{this, index};
 	}
