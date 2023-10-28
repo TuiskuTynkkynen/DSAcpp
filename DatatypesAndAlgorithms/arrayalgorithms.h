@@ -60,7 +60,7 @@ class ArrayBuffer : public CustomArray
 	private:
 		unsigned int capacity;
 		unsigned int head;
-		unsigned int tail;
+		int tail;
 		unsigned int length;
 		int get(unsigned int index) override;
 		bool set(unsigned int index, int value);
@@ -68,7 +68,14 @@ class ArrayBuffer : public CustomArray
 	public:
 		ArrayBuffer(int size);
 		~ArrayBuffer();
+		void PrintArrayBuffer();
 		int GetLength();
+		void Push(int val);
+		int Pop();
+		void Enqueue(int val);
+		int Deque();
+		bool Insert(unsigned int index, int val);
+		bool Delete(unsigned int index);
 };
 
 #endif

@@ -172,11 +172,45 @@ void TestArrayAlgorithms() {
 	arrlist[1] = 4;
 	cout << "Value at index 1 = " << arrlist[1] << "\n";
 	cout << "Value at index 10 = " << arrlist[10] << "\n";
+
+	cout << "\nArray buffer: \n";
+	arrayalgorithms::ArrayBuffer arrbuffer(2);
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Push(1);
+	arrbuffer.Push(2);
+	arrbuffer.Push(3);
+	arrbuffer.Push(4);
+	arrbuffer.Push(5);
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Pop();
+	arrbuffer.Pop();
+	arrbuffer.Pop();
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Pop();
+	arrbuffer.Pop();
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Enqueue(1);
+	arrbuffer.Enqueue(2);
+	arrbuffer.Enqueue(3);
+	arrbuffer.Enqueue(4);
+	arrbuffer.Enqueue(5);
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Deque();
+	arrbuffer.Deque();
+	arrbuffer.Deque();
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Insert(1, 7);
+	arrbuffer.Insert(1, 6);
+	arrbuffer.Insert(1, 8);
+	arrbuffer.Insert(5, 11);
+	arrbuffer.PrintArrayBuffer();
+	arrbuffer.Delete(3);
+	arrbuffer.Delete(1);
+	arrbuffer.PrintArrayBuffer();
 }
 
 int main()
 {
-	//Implement arrayBuffer
 	cout << "Hello World!\n";
 	//TestLinkedList();
 	//TestQueue();

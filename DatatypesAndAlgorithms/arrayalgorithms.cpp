@@ -246,10 +246,10 @@
 
 	//ARRAY BUFFER
 
-
 	ArrayBuffer::ArrayBuffer(int size)
 	{
-		length = head = tail = 0;
+		length = head = 0;
+		tail = -1;
 		capacity = size;
 		array = new int[size]();
 	}
@@ -288,7 +288,7 @@
 
 		capacity *= 2;
 		head = 0;
-		tail = length;
+		tail = length - 1;
 
 		newArray = new int[capacity]();
 		for (int i = 0; i < length; i++) {
@@ -299,6 +299,125 @@
 		array = newArray;
 	}
 
+	void ArrayBuffer::PrintArrayBuffer() {
+		if (length == 0) {
+			std::cout << "Array buffer is empty\n";
+			return;
+		}
+
+		std::cout << "Array buffer = ";
+		for (int i = 0; i < length; i++) {
+			unsigned int index = (head + i) % capacity;
+			std::cout << array[index] << ", ";
+		}
+		std::cout << "\n";
+	}
+
 	int  ArrayBuffer::GetLength() {
 		return length;
+	}
+
+	void ArrayBuffer::Push(int val) {
+		if (length == capacity) {
+			this->Grow();
+		}
+
+		tail = (++tail) % capacity;
+		array[tail] = val;
+		length++;
+	}
+
+	int ArrayBuffer::Pop() {
+		if (length == 0) {
+			return -1;
+		}
+
+		int value = array[tail];
+		length--;
+		
+		if (tail == 0) {
+			tail = capacity;
+		} else {
+			tail--;
+		}
+
+		return value;
+	}
+
+	void ArrayBuffer::Enqueue(int val) {
+		if (length == capacity) {
+			this->Grow();
+		}
+
+		if (head == 0) {
+			head = capacity - 1;
+		} else {
+			head--;
+		}
+		
+		array[head] = val;
+		length++;
+	}
+
+	int ArrayBuffer::Deque() {
+		if (length == 0) {
+			return -1;
+		}
+
+		int value = array[head];
+
+		head = (++head) % capacity;
+		length--;
+
+		return value;
+	}
+
+	bool ArrayBuffer::Insert(unsigned int index, int val) {
+		if (index > length) {
+			return false;
+		}
+
+		if (length == capacity) {
+			this->Grow();
+		}
+
+		tail = (++tail) % capacity;
+		length++;
+
+		for (int i = index; i < length - 1; i++) {
+			int newIndex = tail - i;
+			if (newIndex < 0) { newIndex = capacity + newIndex; }
+
+			int oldIndex = tail - i - 1;
+			if (oldIndex < 0) { oldIndex = capacity + oldIndex; }
+			
+			array[newIndex] = array[oldIndex];
+		}
+
+		//get index relative to first element of array
+		index = (head + index) % capacity;
+
+		array[index] = val;
+		return true;
+	}
+
+	bool ArrayBuffer::Delete(unsigned int index) {
+		if (index >= length) {
+			return false;
+		}
+
+		for (int i = index; i < length; i++) {
+			unsigned int newIndex = (head + i) % capacity;
+			unsigned int oldIndex = (head + i + 1) % capacity;
+
+			array[newIndex] = array[oldIndex];
+		}
+
+		if (tail == 0) {
+			tail = capacity;
+		} else {
+			tail--;
+		}
+		length--;
+		return true;
 	}
