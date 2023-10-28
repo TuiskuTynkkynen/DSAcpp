@@ -21,10 +21,12 @@ class CustomArray {
 
 class Array : public CustomArray
 { 
+	private:
+		const unsigned int length;
 	public:
-		const int length;
 		Array(int size);
 		~Array();
+		int GetLength();
 		void InitializeRadomValues();
 		void PrintArray();
 		int LinearSearch(int val);
@@ -35,14 +37,15 @@ class Array : public CustomArray
 class ArrayList : public CustomArray
 {
 	private:
-		int capacity;
+		unsigned int capacity;
+		unsigned int length;
 		int get(unsigned int index) override;
 		bool set(unsigned int index, int value);
 		void Grow();
 	public:
-		int length;
 		ArrayList(int size);
 		~ArrayList();
+		int GetLength();
 		void PrintArrayList();
 		void Push(int val);
 		int Pop();
@@ -51,5 +54,21 @@ class ArrayList : public CustomArray
 		bool Insert(unsigned int index, int val);
 		bool Delete(unsigned int index);
 }; 
+
+class ArrayBuffer : public CustomArray
+{
+	private:
+		unsigned int capacity;
+		unsigned int head;
+		unsigned int tail;
+		unsigned int length;
+		int get(unsigned int index) override;
+		bool set(unsigned int index, int value);
+		void Grow();
+	public:
+		ArrayBuffer(int size);
+		~ArrayBuffer();
+		int GetLength();
+};
 
 #endif

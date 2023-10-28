@@ -45,6 +45,10 @@
 		delete[] array;
 	}
 
+	int  Array::GetLength() {
+		return length;
+	}
+
 	void Array::InitializeRadomValues() {
 		std::vector<int> tempvec;
 
@@ -140,6 +144,21 @@
 		return true;
 	}
 
+	void ArrayList::Grow() {
+		int* newArray;
+		capacity *= 2;
+		newArray = new int[capacity]();
+		for (int i = 0; i < length; i++) {
+			newArray[i] = array[i];
+		}
+		delete[] array;
+		array = newArray;
+	}
+
+	int  ArrayList::GetLength() {
+		return length;
+	}
+
 	void ArrayList::PrintArrayList() {
 		if (length == 0) {
 			std::cout << "Arraylist is empty\n";
@@ -151,17 +170,6 @@
 			std::cout << array[i] << ", ";
 		}
 		std::cout << "\n";
-	}
-
-	void ArrayList::Grow() {
-		int* newArray;
-		capacity *= 2;
-		newArray = new int[capacity]();
-		for (int i = 0; i < length; i++) {
-			newArray[i] = array[i];
-		}
-		delete[] array;
-		array = newArray;
 	}
 
 	void ArrayList::Push(int val) {
@@ -234,4 +242,63 @@
 
 		length--;
 		return true;
+	}
+
+	//ARRAY BUFFER
+
+
+	ArrayBuffer::ArrayBuffer(int size)
+	{
+		length = head = tail = 0;
+		capacity = size;
+		array = new int[size]();
+	}
+
+	ArrayBuffer::~ArrayBuffer() {
+		delete[] array;
+	}
+
+	int ArrayBuffer::get(unsigned int index) {
+		if (index >= length) {
+			return -1;
+		}
+
+		//get index relative to first element of array
+		index = (head + index) % capacity;
+		
+		return array[index];
+	}
+
+	bool ArrayBuffer::set(unsigned int index, int value) {
+		if (index >= length) {
+			return false;
+		}
+
+		//get index relative to first element of array
+		index = (head + index) % capacity;
+		
+		array[index] = value;
+		return true;
+	}
+
+	void ArrayBuffer::Grow() {
+		int* newArray;
+		unsigned int oldHead = head;
+		unsigned int oldCapacity = capacity;
+
+		capacity *= 2;
+		head = 0;
+		tail = length;
+
+		newArray = new int[capacity]();
+		for (int i = 0; i < length; i++) {
+			unsigned int oldIndex = (oldHead + i) % oldCapacity;
+			newArray[i] = array[oldIndex];
+		}
+		delete[] array;
+		array = newArray;
+	}
+
+	int  ArrayBuffer::GetLength() {
+		return length;
 	}
