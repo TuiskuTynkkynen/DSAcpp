@@ -1,24 +1,30 @@
 #ifndef arrayalgorithms
 #define arrayalgorithms
 
-class Array
-{ 
+class CustomArray {
 	protected:
 		int* array;
-		int get(int index);
-		void set(int index, int value);
+		virtual int get(unsigned int index);
+		virtual bool set(unsigned index, int value);
 		struct ArrayRefrence {
-			Array* target_;
+			CustomArray* target_;
 			int index_;
 
 			ArrayRefrence& operator=(int val);
 			operator int();
 		};
 	public:
+		CustomArray();
+		ArrayRefrence operator[](int index);
+
+};
+
+class Array : public CustomArray
+{ 
+	public:
 		const int length;
 		Array(int size);
 		~Array();
-		ArrayRefrence operator[](int index);
 		void InitializeRadomValues();
 		void PrintArray();
 		int LinearSearch(int val);
@@ -26,26 +32,17 @@ class Array
 		void BubbleSort();
 };
 
-class ArrayList
+class ArrayList : public CustomArray
 {
 	private:
-		int* array;
 		int capacity;
-		int get(unsigned int index);
+		int get(unsigned int index) override;
 		bool set(unsigned int index, int value);
-		struct ArrayRefrence {
-			ArrayList* target_;
-			int index_;
-
-			ArrayRefrence& operator=(int val);
-			operator int();
-		};
 		void Grow();
 	public:
 		int length;
 		ArrayList(int size);
 		~ArrayList();
-		ArrayRefrence operator[](int index);
 		void PrintArrayList();
 		void Push(int val);
 		int Pop();

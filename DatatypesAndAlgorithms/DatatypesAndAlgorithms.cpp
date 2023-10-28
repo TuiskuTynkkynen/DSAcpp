@@ -125,6 +125,7 @@ void TestRedBlackTree() {
 }
 
 void TestArrayAlgorithms() {
+	cout << "\nArray: \n";
 	arrayalgorithms::Array arr(10);
 	arr.InitializeRadomValues();
 	arr.PrintArray();
@@ -134,8 +135,13 @@ void TestArrayAlgorithms() {
 	cout << "Index of 6 = " << arr.LinearSearch(6) << "\n";
 	cout << "Index of 1 = " << arr.BinarySearch(1) << "\n";
 	cout << "Index of 6 = " << arr.BinarySearch(6) << "\n";
+	cout << "Value at index 1 = " << arr[1] << "\n";
+	arr[1] = 4;
+	cout << "Value at index 1 = " << arr[1] << "\n";
 
+	cout << "\nArray list: \n";
 	arrayalgorithms::ArrayList arrlist(2);
+	arrlist.PrintArrayList();
 	arrlist.Push(1);
 	arrlist.Push(2);
 	arrlist.Push(3);

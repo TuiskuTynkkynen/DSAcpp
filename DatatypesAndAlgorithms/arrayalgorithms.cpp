@@ -4,8 +4,38 @@
 #include <random>
 #include <chrono>
 
+	//BASE ARRAY	
 	
-	Array::Array(int size) 
+	CustomArray::CustomArray()
+	{
+		array = nullptr;
+	}
+	
+	int CustomArray::get(unsigned int index) {
+		return array[index];
+	}
+	
+	bool CustomArray::set(unsigned index, int value) {
+	 	array[index] = value;
+		return true;
+	}
+
+	CustomArray::ArrayRefrence CustomArray::operator[](int index) {
+		return ArrayRefrence{ this, index };
+	}
+
+	CustomArray::ArrayRefrence& CustomArray::ArrayRefrence::operator=(int val) {
+		target_->set(index_, val);
+		return *this;
+	}
+
+	CustomArray::ArrayRefrence::operator int() {
+		return target_->get(index_);
+	}
+
+	//ARRAY
+
+	Array::Array(int size)
 		: length(size)
 	{
 		array = new int[size]();
@@ -13,14 +43,6 @@
 
 	Array::~Array() {
 		delete[] array;
-	}
-
-	int Array::get(int index) {
-		return array[index];
-	}
-	
-	void Array::set(int index, int value) {
-		array[index] = value;
 	}
 
 	void Array::InitializeRadomValues() {
@@ -90,19 +112,7 @@
 		}
 	}
 
-	Array::ArrayRefrence Array::operator[](int index) {
-		return ArrayRefrence{this, index};
-	}
-
-	Array::ArrayRefrence& Array::ArrayRefrence::operator=(int val) {
-		target_->set(index_, val);
-		return *this;
-	}
-	
-	Array::ArrayRefrence::operator int(){
-		return target_->get(index_);
-	}
-
+	//ARRAYLIST
 
 	ArrayList::ArrayList(int size)
 	{
@@ -204,8 +214,8 @@
 		}
 
 		length++;
-		
-		for (int i = index; i < length; i++) {
+
+		for (int i = index; i < length - 1; i++) {
 			array[length - i] = array[length - i - 1];
 		}
 
@@ -224,17 +234,4 @@
 
 		length--;
 		return true;
-	}
-
-	ArrayList::ArrayRefrence ArrayList::operator[](int index) {
-		return ArrayRefrence{ this, index };
-	}
-
-	ArrayList::ArrayRefrence& ArrayList::ArrayRefrence::operator=(int val) {
-		target_->set(index_, val);
-		return *this;
-	}
-
-	ArrayList::ArrayRefrence::operator int() {
-		return target_->get(index_);
 	}
