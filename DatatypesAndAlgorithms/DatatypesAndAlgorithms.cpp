@@ -6,6 +6,7 @@
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
+#include "pathfinding.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -209,6 +210,11 @@ void TestArrayAlgorithms() {
 	arrbuffer.PrintArrayBuffer();
 }
 
+void TestPathFinding() {
+	pathfinding::Maze maze;
+	maze.Solve();
+}
+
 int main()
 {
 	cout << "Hello World!\n";
@@ -217,5 +223,6 @@ int main()
 	//TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	TestArrayAlgorithms();
+	//TestArrayAlgorithms();
+	TestPathFinding();
 }
