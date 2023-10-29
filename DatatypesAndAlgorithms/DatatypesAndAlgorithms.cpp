@@ -211,8 +211,12 @@ void TestArrayAlgorithms() {
 }
 
 void TestPathFinding() {
-	pathfinding::Maze maze;
-	maze.Solve();
+	pathfinding::SimpleMaze maze0;
+	maze0.Solve();
+	pathfinding::ComplexMaze maze1;
+	maze1.Solve();
+	pathfinding::VeryComplexMaze maze2;
+	maze2.Solve();
 }
 
 int main()
