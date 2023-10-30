@@ -127,10 +127,14 @@ void TestRedBlackTree() {
 
 void TestArrayAlgorithms() {
 	cout << "\nArray: \n";
-	arrayalgorithms::Array arr(10);
+	arrayalgorithms::Array arr(20);
 	arr.InitializeRadomValues();
 	arr.PrintArray();
 	arr.BubbleSort();
+	arr.PrintArray();
+	arr.InitializeRadomValues();
+	arr.PrintArray();
+	arr.QuickSort();
 	arr.PrintArray();
 	cout << "Index of 1 = " << arr.LinearSearch(1) << "\n";
 	cout << "Index of 6 = " << arr.LinearSearch(6) << "\n";
@@ -227,6 +231,6 @@ int main()
 	//TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	//TestArrayAlgorithms();
-	TestPathFinding();
+	TestArrayAlgorithms();
+	//TestPathFinding();
 }

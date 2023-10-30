@@ -23,6 +23,8 @@ class Array : public CustomArray
 { 
 	private:
 		const unsigned int length;
+		void DoQuickSort(int startIndex, int endIndex);
+		int QuickSortPartition(int startIndex, int endIndex);
 	public:
 		Array(int size);
 		~Array();
@@ -32,6 +34,7 @@ class Array : public CustomArray
 		int LinearSearch(int val);
 		int BinarySearch(int val);
 		void BubbleSort();
+		void QuickSort();
 };
 
 class ArrayList : public CustomArray

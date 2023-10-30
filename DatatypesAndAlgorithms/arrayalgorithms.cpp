@@ -116,6 +116,43 @@
 		}
 	}
 
+	void Array::QuickSort() {
+		int start = 0;
+		int half = length / 2;
+		int end = length - 1;
+		DoQuickSort(start, end);
+	}
+	
+	void Array::DoQuickSort(int lowerBound, int upperBound) {
+		if (lowerBound >= upperBound){
+			return;
+		}
+
+		int pivotIndex = QuickSortPartition(lowerBound, upperBound);
+		DoQuickSort(lowerBound, pivotIndex - 1);
+		DoQuickSort(pivotIndex + 1, upperBound);
+	}
+	
+	int Array::QuickSortPartition(int lowerBound, int upperBound) {
+		int pivotValue = array[upperBound];
+		int index = lowerBound - 1;
+
+		for (int i = lowerBound; i < upperBound; i++) {
+			if (array[i] <= pivotValue) {
+				index++;
+				int temp = array[i];
+				array[i] = array[index];
+				array[index] = temp;
+			} 
+		}
+
+		index++;
+		array[upperBound] = array[index];
+		array[index] = pivotValue;
+
+		return index;
+	}
+
 	//ARRAYLIST
 
 	ArrayList::ArrayList(int size)
