@@ -1,37 +1,53 @@
 #include <iostream>
 #include "linkedlist.h"
-	
+#include <memory>
 
-	struct LinkedList::Node
+	//SINGLY LINKED LIST
+
+	struct SinglyLinkedList::Node
 	{
-		int value;
+		int value{};
 		Node* next{};
 	};
 
-	void LinkedList::PrependNode(int val) {
-		Node* node = new Node;
-		Node* temp = list;
-		node->next = temp;
-		node->value = val;
-		list = node;
+	SinglyLinkedList::~SinglyLinkedList() {
+		if (head != nullptr) {
+			FreeList();
+		}
 	}
 
-	void LinkedList::AppendNode(int val) {
-		Node* node = list;
+	void SinglyLinkedList::PrependNode(int val) {
+		Node* node = new Node;
+		node->next = head;
+		node->value = val;
+		head = node;
+	}
+
+	void SinglyLinkedList::AppendNode(int val) {
+		Node* node = head;
+		Node* newnode = new Node;
+		newnode->value = val;
+		
+		if (head == nullptr) {
+			head = newnode;
+			return;
+		}
+
 		while (node->next != nullptr)
 		{
 			node = node->next;
 		}
-
-		Node* newnode = new Node;
-		newnode->value = val;
 		node->next = newnode;
 	}
 
-	void LinkedList::InsertAt(int pos, int val) {
+	void SinglyLinkedList::InsertAt(int pos, int val) {
+		if (head == nullptr || pos < 0) {
+			return;
+		}
+		
 		Node* node = new Node;
-		Node* temp = list;
-		for (int i = 2; i < pos; i++) {
+		Node* temp = head;
+		for (int i = 1; i < pos; i++) {
 			if (temp->next != nullptr)
 			{
 				temp = temp->next;
@@ -43,55 +59,73 @@
 		temp->next = node;
 	}
 
-	void LinkedList::Delete(int pos) {
-		if (pos == 0) { return; }
-		Node* node = list;
-		if (pos == 1) {
-			node = list->next;
-			delete[] list;
-			list = node;
+	void SinglyLinkedList::DeleteAt(int pos) {
+		if (head == nullptr || pos < 0) {
 			return;
 		}
 
-		for (int i = 2; i < pos; i++) {
+		Node* node = head;
+		if (pos == 0) {
+			node = head->next;
+			delete[] head;
+			head = node;
+			return;
+		}
+
+		for (int i = 1; i < pos; i++) {
 			if (node->next != nullptr)
 			{
 				node = node->next;
 			}
 		}
+
 		Node* temp = node->next;
+		
 		if (temp != nullptr) {
 			node->next = temp->next;
+			delete[] temp;
 		}
-		delete[] temp;
 	}
 
-	void LinkedList::PrintList() {
-		Node* node = list;
+	void SinglyLinkedList::PrintList() {
+		if (head == nullptr) {
+			std::cout << "List is empty";
+			return;
+		}
+
+		Node* node = head;
+		std::cout << "List = ";
 		while (node->next != nullptr)
 		{
-			std::cout << node->value << "/" << node->next;
-			std::cout << ", ";
+			std::cout << node->value << ", ";
 			node = node->next;
 		}
-		std::cout << node->value << "/" << node->next << "\n";
+		std::cout << node->value << "\n";
 	}
 
-	void LinkedList::FreeList() {
+	void SinglyLinkedList::FreeList() {
 		Node* node;
-		Node* next = list;
+		Node* next = head;
+
+		std::cout << "Freed nodes with values: ";
 		while (next != nullptr)
 		{
 			node = next;
-			std::cout << node->value << "/" << node->next << ": freed node\n";
+			std::cout << node->value << ", ";
 			next = node->next;
 			delete[] node;
 		}
-		std::cout << "freed list\n";
+		head = nullptr;
+		std::cout << "\nList has been freed\n";
 	}
 
-	int LinkedList::Count() {
-		Node* node = list;
+	int SinglyLinkedList::Count() {
+		if (head == nullptr) {
+			return 0;
+		}
+
+		Node* node = head;
+
 		int count = 1;
 		while (node->next != nullptr)
 		{
@@ -101,9 +135,9 @@
 		return count;
 	}
 
-	int LinkedList::IndexOf(int val) {
-		Node* node = list;
-		int index = 1;
+	int SinglyLinkedList::IndexOf(int val) {
+		Node* node = head;
+		int index = 0;
 		while (node != nullptr)
 		{
 			if (val == node->value) {
@@ -112,5 +146,5 @@
 			node = node->next;
 			index++;
 		}
-		return 0;
+		return -1;
 	}

@@ -10,22 +10,23 @@
 using namespace std;
 
 void TestLinkedList() {
-	linkedlist::LinkedList list1;
-	list1.PrependNode(2);
-	list1.PrintList();
-	list1.PrependNode(1);
-	list1.PrintList();
-	cout << "Count = " << list1.Count() << "\n";
-	list1.AppendNode(4);
-	cout << "Count = " << list1.Count() << "\n";
-	list1.PrintList();
-	cout << "Index of 2 = " << list1.IndexOf(2) << "\n";
-	cout << "Index of 3 = " << list1.IndexOf(3) << "\n";
-	list1.InsertAt(3, 3);
-	list1.PrintList();
-	list1.Delete(list1.IndexOf(1));
-	list1.PrintList();
-	list1.FreeList();
+	cout << "\nSingly Linked List: \n";
+	linkedlist::SinglyLinkedList slist;
+	slist.PrependNode(2);
+	slist.PrintList();
+	slist.PrependNode(1);
+	slist.PrintList();
+	cout << "Count = " << slist.Count() << "\n";
+	slist.AppendNode(4);
+	slist.PrintList();
+	cout << "Count = " << slist.Count() << "\n";
+	cout << "Index of 2 = " << slist.IndexOf(2) << "\n";
+	cout << "Index of 3 = " << slist.IndexOf(3) << "\n";
+	slist.InsertAt(3, 3);
+	slist.PrintList();
+	slist.DeleteAt(slist.IndexOf(1));
+	slist.PrintList();
+	slist.FreeList();
 }
 
 void TestQueue() {
@@ -226,11 +227,11 @@ void TestPathFinding() {
 int main()
 {
 	cout << "Hello World!\n";
-	//TestLinkedList();
+	TestLinkedList();
 	//TestQueue();
 	//TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	TestArrayAlgorithms();
+	//TestArrayAlgorithms();
 	//TestPathFinding();
 }
