@@ -27,6 +27,24 @@ void TestLinkedList() {
 	slist.DeleteAt(slist.IndexOf(1));
 	slist.PrintList();
 	slist.FreeList();
+
+	cout << "\nDoubly Linked List: \n";
+	linkedlist::DoublyLinkedList dlist;
+	dlist.PrependNode(1);
+	dlist.PrependNode(3);
+	dlist.PrependNode(4);
+	dlist.AppendNode(5);
+	dlist.AppendNode(6);
+	dlist.PrintList();
+	cout << "Count = " << dlist.Count() << "\n";
+	cout << "Index of 2 = " << dlist.IndexOf(2) << "\n";
+	cout << "Index of 3 = " << dlist.IndexOf(3) << "\n";
+	dlist.InsertAt(2, 2);
+	dlist.PrintList();
+	cout << "Index of 2 = " << dlist.IndexOf(2) << "\n";
+	dlist.DeleteValue(5);
+	dlist.DeleteAt(4);
+	dlist.PrintList();
 }
 
 void TestQueue() {
