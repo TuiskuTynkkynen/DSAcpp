@@ -190,15 +190,13 @@
 		node->value = val;
 		node->next = head;
 		
-		if (head != nullptr) {
-			head->previous = node;
+		if (head == nullptr) {
+			head = tail = node;
+			return;
 		}
 
+		head->previous = node;
 		head = node;
-		
-		if (tail == nullptr) {
-			tail = node;
-		}
 	}
 
 	void DoublyLinkedList::AppendNode(int val) {
@@ -207,52 +205,40 @@
 		node->next = nullptr;
 		node->previous = tail;
 
-		if (tail != nullptr) {
-			tail->next = node;
-		}
-
-		tail = node;
-
 		if (head == nullptr) {
-			head = node;
+			head = tail = node;
+			return;
 		}
+
+		tail->next = node;
+		tail = node;
 	}
 
-	void DoublyLinkedList::InsertAt(int pos, int val) {
-		if (pos < 0) {
+	void DoublyLinkedList::InsertAt(int index, int val) {
+		if (index == 0) {
+			PrependNode(val);
 			return;
 		}
+
+		std::shared_ptr<Node> prev = GetNode(index - 1);
 		
+		if (prev == nullptr) {
+			return;
+		}
+
 		auto node = std::make_shared<Node>();
 		node->value = val;
-
-		if (pos == 0) {
-			node->next = head;
-			head->previous = node;
-			node->previous = nullptr;
-			head = node;
-			return;
-		}
-
-		std::shared_ptr<Node> prev = head;
-		for (int i = 0; i < pos - 1; i++) {
-			if (prev->next != nullptr)
-			{
-				prev = prev->next;
-			}
-		}
-
 		node->next = prev->next;
-		node->next->previous = node;
+		
+		if (prev->next != nullptr) {
+			node->next->previous = node;
+		}
+
 		node->previous = prev;
 		prev->next = node;
 	}
 
 	void DoublyLinkedList::DeleteAt(int index) {
-		if (head == nullptr || index < 0) {
-			return;
-		}
-
 		if (index == 0) {
 			std::shared_ptr<Node> node = head;
 			node = head->next;
@@ -262,12 +248,10 @@
 			return;
 		}
 
-		std::shared_ptr<Node> prev = head;
-		for (int i = 1; i < index; i++) {
-			if (prev->next != nullptr)
-			{
-				prev = prev->next;
-			}
+		std::shared_ptr<Node> prev = GetNode(index - 1);
+		
+		if (prev == nullptr) {
+			return;
 		}
 
 		std::shared_ptr<Node> deletedNode = prev->next;
@@ -336,4 +320,31 @@
 			index++;
 		}
 		return -1;
+	}
+
+	int DoublyLinkedList::Get(int index) {
+		std::shared_ptr<Node> node = GetNode(index);
+		
+		if (node == nullptr) {
+			return -1;
+		}
+
+		return node->value;
+	}
+
+	std::shared_ptr<DoublyLinkedList::Node> DoublyLinkedList::GetNode(int index) {
+		if (head == nullptr || index < 0) {
+			return nullptr;
+		}
+		
+		std::shared_ptr<Node> node = head;
+		for (int i = 0; i < index; i++) {
+			if (node->next != nullptr) {
+				node = node->next;
+			} else {
+				return nullptr;
+			}
+		}
+
+		return node;
 	}

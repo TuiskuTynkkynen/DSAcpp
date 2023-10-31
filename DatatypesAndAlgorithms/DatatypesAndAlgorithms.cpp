@@ -45,6 +45,8 @@ void TestLinkedList() {
 	dlist.DeleteValue(5);
 	dlist.DeleteAt(4);
 	dlist.PrintList();
+	cout << "Value at index 3 = " << dlist.Get(3) << "\n";
+	dlist.InsertAt(0, 5);
 }
 
 void TestQueue() {
