@@ -81,16 +81,23 @@ void TestStack() {
 
 void TestBinarySearchTree() {
 	binarysearchtree::BinarySearchTree BST{};
-	BST.Insert(4);
-	BST.Insert(2);
-	BST.Insert(1);
+	BST.Insert(16);
 	BST.Insert(8);
-	BST.Insert(6);
+	BST.Insert(24);
+	BST.Insert(4);
 	BST.Insert(12);
+	BST.Insert(20);
+	BST.Insert(28);
+	BST.Insert(2);
+	BST.Insert(6);
 	BST.Insert(10);
-	BST.Insert(11);
 	BST.Insert(14);
-	BST.Insert(15);
+	BST.Insert(18);
+	BST.Insert(22);
+	BST.Insert(26);
+	BST.Insert(30);
+	BST.Insert(1);
+	BST.PrintBreadthFirst();
 	cout << "Min = " << BST.Min() << "\n";
 	cout << "Max = " << BST.Max() << "\n";
 	cout << "Size = " << BST.Size() << "\n";
@@ -247,10 +254,10 @@ void TestPathFinding() {
 int main()
 {
 	cout << "Hello World!\n";
-	TestLinkedList();
+	//TestLinkedList();
 	//TestQueue();
 	//TestStack();
-	//TestBinarySearchTree();
+	TestBinarySearchTree();
 	//TestRedBlackTree();
 	//TestArrayAlgorithms();
 	//TestPathFinding();

@@ -1,6 +1,7 @@
 #include "binarysearchtree.h"
 #include <iostream>
 #include <string>
+#include <queue>
 
 	struct BinarySearchTree::Node
 	{
@@ -185,6 +186,53 @@
 			}
 		}
 		delete[] strs;
+	}
+
+	void BinarySearchTree::PrintBreadthFirst() {
+		int n = 1;
+		int n2 = 0;
+		width = 0;
+		inOrder(tree, 0);
+		int treeWidth = pow(2, width + 1) - 1;
+		std::cout << treeWidth;
+		int num;
+		Node* node;
+		std::queue<Node*> q;
+		q.push(tree);
+
+		std::cout << "Binary tree levels: \n";
+
+		while (q.size() > 0) {
+			int heightFromBottom = width - sqrt(n2) + 1;
+			num = (pow(2, heightFromBottom) - 1) / 2;
+			node = q.front();
+
+			for (int i = 0; i < num; i++) {
+				std::cout << "  ";
+			}
+
+			if (node != nullptr) {
+				std::cout << node->value;
+				q.push(node->left);
+				q.push(node->right);
+			} else {
+				std::cout << "  ";
+			}
+
+			for (int i = 0; i <= num; i++) {
+				std::cout << "  ";
+			}
+
+			if (n2 * 2 == n - 1) {
+				n2 = n;
+				std::cout << "\n";
+			}
+
+			q.pop();
+			n++;
+		}
+
+		std::cout << "\n";
 	}
 
 	void BinarySearchTree::inOrder(Node* node, int tempwidth) {

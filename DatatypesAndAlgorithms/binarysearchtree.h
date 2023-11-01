@@ -12,7 +12,7 @@ class BinarySearchTree {
 		int Max();
 		int Size();
 		void Print();
-
+		void PrintBreadthFirst();
 	private :
 		struct Node;
 		Node* tree = nullptr;
