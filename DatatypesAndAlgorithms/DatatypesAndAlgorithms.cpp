@@ -7,6 +7,7 @@
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
 #include "pathfinding.h"
+#include "heap.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -246,14 +247,32 @@ void TestPathFinding() {
 	maze2.Solve();
 }
 
+void TestHeap(){
+	heap::MinHeap h(10);
+	h.Insert(5);
+	h.Insert(10);
+	h.Insert(2);
+	h.Print();
+	h.Insert(3);
+	h.Insert(1);
+	h.Insert(8);
+	h.Print();
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
+	cout << "Length = " << h.GetLength() << "\n";
+}
+
 int main()
 {
 	cout << "Hello World!\n";
 	//TestLinkedList();
 	//TestQueue();
 	//TestStack();
-	TestBinarySearchTree();
+	//TestBinarySearchTree();
 	//TestRedBlackTree();
 	//TestArrayAlgorithms();
 	//TestPathFinding();
+	TestHeap();
 }

@@ -3,7 +3,9 @@
 #include <iostream>
 
 	heap::MinHeap::MinHeap(int size) {
-		heap = std::vector<int>(size);
+		heap = std::vector<int>();
+		heap.reserve(size);
+		std::cout << heap.size() << "/" << heap.capacity() << "\n";
 	}
 
 	heap::MinHeap::~MinHeap() {
@@ -19,8 +21,15 @@
 	}
 	
 	int heap::MinHeap::Delete() {
+		if (heap.size() == 0)
+			return -1;
+
+		int value = heap.back();
+
 		heap.erase(heap.begin());
 		HeapifyDown();
+
+		return value;
 	}
 
 	int heap::MinHeap::GetLength() {
@@ -36,13 +45,13 @@
 		std::cout << "\n";
 	}
 
-	void heap::MinHeap::HeapifyDown() {
-		int index = heap.size();
+	void heap::MinHeap::HeapifyUp() {
+		int index = heap.size() - 1;
 		int parentIndex;
-		while (index >= 0){
+		while (index > 0){
 			parentIndex = (index - 1) / 2;
 
-			if (heap[index] > heap[parentIndex]) {
+			if (heap[index] < heap[parentIndex]) {
 				int temp = heap[index];
 				heap[index] = heap[parentIndex];
 				heap[parentIndex] = temp;
@@ -52,21 +61,23 @@
 		}
 	}
 
-	void heap::MinHeap::HeapifyUp() {
+	void heap::MinHeap::HeapifyDown() {
 		int index = 0;
+		int length = heap.size();
 		int leftChildIndex;
 		int rightChildIndex;
-		while (index >= 0){
+
+		while (index <= length / 2) {
 			leftChildIndex = 2 * index + 1;
 			rightChildIndex = 2 * index + 2;
 
-			if (heap[leftChildIndex] > heap[index]) {
+			if (leftChildIndex < length && heap[leftChildIndex] < heap[index]) {
 				int temp = heap[leftChildIndex];
 				heap[leftChildIndex] = heap[index];
 				heap[index] = temp;
 
 				index = leftChildIndex;
-			} else if (heap[rightChildIndex] > heap[index]) {
+			} else if (rightChildIndex < length && heap[rightChildIndex] < heap[index]) {
 				int temp = heap[rightChildIndex];
 				heap[rightChildIndex] = heap[index];
 				heap[index] = temp;
