@@ -14,6 +14,9 @@ namespace heap {
 		void Print();
 	private:
 		std::vector<int> heap;
+		int Parent(int index);
+		int LeftChild(int index);
+		int RightChild(int index);
 		void HeapifyUp();
 		void HeapifyDown();
 	};

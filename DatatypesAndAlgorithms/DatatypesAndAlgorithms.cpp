@@ -249,13 +249,15 @@ void TestPathFinding() {
 
 void TestHeap(){
 	heap::MinHeap h(10);
-	h.Insert(5);
+	h.Insert(8);
 	h.Insert(10);
 	h.Insert(2);
 	h.Print();
-	h.Insert(3);
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
 	h.Insert(1);
-	h.Insert(8);
+	h.Insert(5);
+	h.Insert(3);
 	h.Print();
 	std::cout << "Deleted value = " << h.Delete() << "\n";
 	std::cout << "Deleted value = " << h.Delete() << "\n";
