@@ -189,47 +189,50 @@
 	}
 
 	void BinarySearchTree::PrintBreadthFirst() {
-		int n = 1;
-		int n2 = 0;
 		width = 0;
 		inOrder(tree, 0);
-		int treeWidth = pow(2, width + 1) - 1;
-		std::cout << treeWidth;
-		int num;
+		
+		int currentSize= 1;
+		int previousSize = 0;
+		int subTreeSize;
 		Node* node;
 		std::queue<Node*> q;
+		
 		q.push(tree);
 
 		std::cout << "Binary tree levels: \n";
 
 		while (q.size() > 0) {
-			int heightFromBottom = width - sqrt(n2) + 1;
-			num = (pow(2, heightFromBottom) - 1) / 2;
+			int heightFromBottom = width - sqrt(previousSize) + 1;
+			subTreeSize = (pow(2, heightFromBottom) - 1) / 2;
 			node = q.front();
 
-			for (int i = 0; i < num; i++) {
+			for (int i = 0; i < subTreeSize; i++) {
 				std::cout << "  ";
 			}
 
 			if (node != nullptr) {
 				std::cout << node->value;
+				if (node->value < 10) {
+					std::cout << " ";
+				}
 				q.push(node->left);
 				q.push(node->right);
 			} else {
 				std::cout << "  ";
 			}
 
-			for (int i = 0; i <= num; i++) {
+			for (int i = 0; i <= subTreeSize; i++) {
 				std::cout << "  ";
 			}
 
-			if (n2 * 2 == n - 1) {
-				n2 = n;
+			if (previousSize * 2 == currentSize- 1) {
+				previousSize = currentSize;
 				std::cout << "\n";
 			}
 
 			q.pop();
-			n++;
+			currentSize++;
 		}
 
 		std::cout << "\n";

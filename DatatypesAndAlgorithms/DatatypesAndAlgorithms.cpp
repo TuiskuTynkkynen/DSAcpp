@@ -91,12 +91,7 @@ void TestBinarySearchTree() {
 	BST.Insert(2);
 	BST.Insert(6);
 	BST.Insert(10);
-	BST.Insert(14);
-	BST.Insert(18);
-	BST.Insert(22);
 	BST.Insert(26);
-	BST.Insert(30);
-	BST.Insert(1);
 	BST.PrintBreadthFirst();
 	cout << "Min = " << BST.Min() << "\n";
 	cout << "Max = " << BST.Max() << "\n";
