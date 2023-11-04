@@ -83,36 +83,50 @@
 	}
 
 	graphs::AdjacencyList::AdjacencyList()
-		:size(5)
+		:size(7)
 	{
 		std::vector<edge> tempVector;
 
-		//Matrix[0]
+		//Graph[0]
 		tempVector.push_back({1,1}); //Edge[0]
 		tempVector.push_back({2,4}); //Edge[1]
-		matrix.push_back(tempVector);
+		graph.push_back(tempVector);
 		tempVector.clear();
 
-		//Matrix[1]
+		//Graph[1]
 		tempVector.push_back({2,7}); //Edge[0]
 		tempVector.push_back({3,3}); //Edge[1]
-		matrix.push_back(tempVector);
+		tempVector.push_back({5,1}); //Edge[1]
+		graph.push_back(tempVector);
 		tempVector.clear();
 
-		//Matrix[2]
+		//Graph[2]
 		tempVector.push_back({4,1}); //Edge[0]
-		matrix.push_back(tempVector);
+		graph.push_back(tempVector);
 		tempVector.clear();
 
-		//Matrix[3]
+		//Graph[3]
 		tempVector.push_back({1,1}); //Edge[0]
 		tempVector.push_back({2,2}); //Edge[1]
-		matrix.push_back(tempVector);
+		graph.push_back(tempVector);
+		tempVector.clear();
+
+		//Graph[4]
+		graph.push_back(tempVector);
+
+		//Graph[5]
+		tempVector.push_back({6,1}); //Edge[0]
+		graph.push_back(tempVector);
+		tempVector.clear();
+
+		//Graph[6]
+		tempVector.push_back({4,1}); //Edge[0]
+		graph.push_back(tempVector);
 		tempVector.clear();
 	}
 
 	graphs::AdjacencyList::~AdjacencyList(){
-		matrix.clear();
+		graph.clear();
 	}
 
 	void graphs::AdjacencyList::DepthFirstSearch(int val) {
@@ -147,9 +161,9 @@
 			return true;
 		}
 
-		int edgeCount = matrix[current].size();
+		int edgeCount = graph[current].size();
 		for (int i = 0; i < edgeCount; i++) {
-			edge edge = matrix[current][i];
+			edge edge = graph[current][i];
 			if (DepthFirstSearchRecurse(edge.destination, val, seen, path) == true) {
 				return true;
 			}
@@ -171,18 +185,14 @@
 		std::vector<int> distance;
 		distance.assign(size, INT32_MAX);
 		distance[source] = 0;
-		while (HasUnvisted(seen)) {
+
+		while (HasUnvisted(seen, distance)) {
 			int current = GetLowestUnvisited(seen, distance);
-			if (current < 0) { return; }
-
 			seen[current] = true;
-			if (current == val) {
-				break;
-			}
 
-			int edgeCount = matrix[current].size();
+			int edgeCount = graph[current].size();
 			for (int i = 0; i < edgeCount; i++) {
-				edge edge = matrix[current][i];
+				edge edge = graph[current][i];
 				if (seen[edge.destination]) {
 					continue;
 				}
@@ -191,6 +201,7 @@
 					distance[edge.destination] = tempDistance;
 					previous[edge.destination] = current;
 				}
+
 			}
 		}
 
@@ -217,9 +228,9 @@
 
 	}
 
-	bool graphs::AdjacencyList::HasUnvisted(const std::vector<bool>& seen) {
-		for (bool b : seen) {
-			if (!b) {
+	bool graphs::AdjacencyList::HasUnvisted(const std::vector<bool>& seen, const std::vector<int>& distance) {
+		for (int i = 0; i < size; i++) {
+			if (!seen[i] && distance[i] < INT32_MAX) {
 				return true;
 			}
 		}
