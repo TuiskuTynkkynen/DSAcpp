@@ -170,8 +170,13 @@ void TestHeap() {
 }
 
 void TestGraphAlgorithms() {
+	std::cout << "Adjacency matrix graph: \n";
 	graphs::AdjacencyMatrix adMat;
 	adMat.BreadthFirstSearch(4);
+
+	std::cout << "\nAdjacency list graph: \n";
+	graphs::AdjacencyList adList;
+	adList.DepthFirstSearch(4);
 }
 
 
