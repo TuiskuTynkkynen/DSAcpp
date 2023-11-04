@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 namespace graphs {
 
@@ -16,7 +17,18 @@ namespace graphs {
 	
 	class AdjacencyList
 	{
-
+	public:
+		AdjacencyList();
+		~AdjacencyList();
+		void DepthFirstSearch(int val);
+	private:
+		struct edge{
+			int destination;
+			int weigth;
+		};
+		std::vector<std::vector<edge>> matrix;
+		const int size;
+		std::vector<int> DepthFirstSearchRecurse(int current, int val, std::vector<bool> seen, std::vector<int> path);
 	};
 
 }
