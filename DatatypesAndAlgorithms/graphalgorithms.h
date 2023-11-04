@@ -28,7 +28,7 @@ namespace graphs {
 		};
 		std::vector<std::vector<edge>> matrix;
 		const int size;
-		std::vector<int> DepthFirstSearchRecurse(int current, int val, std::vector<bool> seen, std::vector<int> path);
+		bool DepthFirstSearchRecurse(int current, int val, std::vector<bool> &seen, std::vector<int> &path);
 	};
 
 }
