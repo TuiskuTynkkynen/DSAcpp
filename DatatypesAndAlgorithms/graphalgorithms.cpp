@@ -135,20 +135,21 @@
 	}
 
 	bool graphs::AdjacencyList::DepthFirstSearchRecurse(int current, int val, std::vector<bool> &seen, std::vector<int>& path) {
-		if (current == val) {
-			path.push_back(current);
-			return true;
-		}
-
-		if (seen[current] == true) {
+		if (seen[current]) {
 			return false;
 		}
 
 		path.push_back(current);
 		seen[current] = true;
 
-		for (int i = 0; i < matrix[current].size(); i++) {
-			if (DepthFirstSearchRecurse(matrix[current][i].destination, val, seen, path) == true) {
+		if (current == val) {
+			return true;
+		}
+
+		int edgeCount = matrix[current].size();
+		for (int i = 0; i < edgeCount; i++) {
+			edge edge = matrix[current][i];
+			if (DepthFirstSearchRecurse(edge.destination, val, seen, path) == true) {
 				return true;
 			}
 		}
