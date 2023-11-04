@@ -11,7 +11,7 @@ namespace graphs {
 	private:
 		int* matrix;
 		const int size;
-		size_t index(int x, int y) const { return x + size * y; }
+		size_t getIndex(int x, int y) const { return x + size * y; }
 	};
 	
 	class AdjacencyList
