@@ -18,7 +18,7 @@
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				matrix[i * j] = tempMatrix[i][j];
+				matrix[i * size + j] = tempMatrix[i][j];
 			}
 		}
 
@@ -28,16 +28,18 @@
 		delete[] matrix;
 	}
 
-	int graphs::AdjacencyMatrix::BreadthFirstSearch(int val) {
+	void graphs::AdjacencyMatrix::BreadthFirstSearch(int val) {
+		const int source = 0;
+
 		std::vector<bool> seen;
 		seen.assign(size, false);
-		seen[0] = true;
+		seen[source] = true;
 
 		std::vector<int> previous;
 		previous.assign(size, -1);
 
 		std::queue<int> q;
-		q.push(0);
+		q.push(source);
 		
 		while (!q.empty()) {
 			int current = q.front();
@@ -57,13 +59,25 @@
 			q.pop();
 		}
 
-		if (previous[val] == -1) {
+		if (seen[val] == false) {
 			std::cout << "Did not find value = " << val << "\n";
-		}	else {
-			std::cout << "Path = ";
-			for (int i : previous) {
-				std::cout << i << "->";
-			}
-			std::cout << "\n";
+			return;
 		}
+
+		std::vector<int> out;
+		int current = val;
+			
+		while (previous[current] != -1) {
+			out.push_back(current);
+			current = previous[current];
+		}
+
+		out.push_back(source);
+
+		std::cout << "Path";
+		for (int i = out.size() - 1; i >= 0; i--) {
+			std::cout << " -> " << out[i];
+		}
+		std::cout << "\n";
+		
 	}
