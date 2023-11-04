@@ -21,6 +21,7 @@ namespace graphs {
 		AdjacencyList();
 		~AdjacencyList();
 		void DepthFirstSearch(int val);
+		void DjikstrasShortestPath(int val);
 	private:
 		struct edge{
 			int destination;
@@ -29,6 +30,8 @@ namespace graphs {
 		std::vector<std::vector<edge>> matrix;
 		const int size;
 		bool DepthFirstSearchRecurse(int current, int val, std::vector<bool> &seen, std::vector<int> &path);
+		bool HasUnvisted(const std::vector<bool>& seen);
+		int GetLowestUnvisited(const std::vector<bool>& seen, const std::vector<int>& distance);
 	};
 
 }

@@ -90,22 +90,23 @@
 		//Matrix[0]
 		tempVector.push_back({1,1}); //Edge[0]
 		tempVector.push_back({2,4}); //Edge[1]
-		tempVector.push_back({3,5}); //Edge[2]
 		matrix.push_back(tempVector);
 		tempVector.clear();
 
 		//Matrix[1]
-		tempVector.push_back({0,1}); //Edge[0]
+		tempVector.push_back({2,7}); //Edge[0]
+		tempVector.push_back({3,3}); //Edge[1]
 		matrix.push_back(tempVector);
 		tempVector.clear();
 
 		//Matrix[2]
-		tempVector.push_back({3,2}); //Edge[0]
+		tempVector.push_back({4,1}); //Edge[0]
 		matrix.push_back(tempVector);
 		tempVector.clear();
 
 		//Matrix[3]
-		tempVector.push_back({4,5}); //Edge[0]
+		tempVector.push_back({1,1}); //Edge[0]
+		tempVector.push_back({2,2}); //Edge[1]
 		matrix.push_back(tempVector);
 		tempVector.clear();
 	}
@@ -128,7 +129,7 @@
 		}
 
 		std::cout << "Path";
-		for (int i = path.size() - 1; i >= 0; i--) {
+		for (int i = 0; i < path.size(); i++) {
 			std::cout << " -> " << path[i];
 		}
 		std::cout << "\n";
@@ -156,4 +157,85 @@
 
 		path.pop_back();
 		return false;
+	}
+
+	void graphs::AdjacencyList::DjikstrasShortestPath(int val) {
+		const int source = 0;
+
+		std::vector<bool> seen;
+		seen.assign(size, false);
+
+		std::vector<int> previous;
+		previous.assign(size, -1);
+		
+		std::vector<int> distance;
+		distance.assign(size, INT32_MAX);
+		distance[source] = 0;
+		while (HasUnvisted(seen)) {
+			int current = GetLowestUnvisited(seen, distance);
+			if (current < 0) { return; }
+
+			seen[current] = true;
+			if (current == val) {
+				break;
+			}
+
+			int edgeCount = matrix[current].size();
+			for (int i = 0; i < edgeCount; i++) {
+				edge edge = matrix[current][i];
+				if (seen[edge.destination]) {
+					continue;
+				}
+				int tempDistance = distance[current] + edge.weigth;
+				if (tempDistance < distance[edge.destination]) {
+					distance[edge.destination] = tempDistance;
+					previous[edge.destination] = current;
+				}
+			}
+		}
+
+		if (seen[val] == false) {
+			std::cout << "Did not find value = " << val << "\n";
+			return;
+		}
+
+		std::vector<int> out;
+		int current = val;
+
+		while (previous[current] != -1) {
+			out.push_back(current);
+			current = previous[current];
+		}
+
+		out.push_back(source);
+
+		std::cout << "Shortest path";
+		for (int i = out.size() - 1; i >= 0; i--) {
+			std::cout << " -> " << out[i];
+		}
+		std::cout << "\nDistnance = " << distance[val] << "\n";
+
+	}
+
+	bool graphs::AdjacencyList::HasUnvisted(const std::vector<bool>& seen) {
+		for (bool b : seen) {
+			if (!b) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	int graphs::AdjacencyList::GetLowestUnvisited(const std::vector<bool>& seen, const std::vector<int>& distance) {
+		int lowest;
+		int lowstDistance = INT32_MAX;
+
+		for (int i = 0; i < size; i++) {
+			if (!seen[i] && distance[i] < lowstDistance) {
+				lowstDistance = distance[i];
+				lowest = i;
+			}
+		}
+		
+		return lowest;
 	}

@@ -177,6 +177,7 @@ void TestGraphAlgorithms() {
 	std::cout << "\nAdjacency list graph: \n";
 	graphs::AdjacencyList adList;
 	adList.DepthFirstSearch(4);
+	adList.DjikstrasShortestPath(4);
 }
 
 
