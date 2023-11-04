@@ -6,6 +6,7 @@
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
+#include "graphalgorithms.h"
 #include "pathfinding.h"
 #include "heap.h"
 using namespace std;
@@ -149,6 +150,31 @@ void TestRedBlackTree() {
 	RBTree.Free();
 }
 
+void TestHeap() {
+	heap::MinHeap h(10);
+	h.Insert(8);
+	h.Insert(10);
+	h.Insert(2);
+	h.Print();
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
+	h.Insert(1);
+	h.Insert(5);
+	h.Insert(3);
+	h.Print();
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
+	cout << "Length = " << h.GetLength() << "\n";
+}
+
+void TestGraphAlgorithms() {
+	graphs::AdjacencyMatrix adMat;
+	adMat.BreadthFirstSearch(4);
+}
+
+
 void TestArrayAlgorithms() {
 	cout << "\nArray: \n";
 	arrayalgorithms::Array arr(20);
@@ -247,25 +273,6 @@ void TestPathFinding() {
 	maze2.Solve();
 }
 
-void TestHeap(){
-	heap::MinHeap h(10);
-	h.Insert(8);
-	h.Insert(10);
-	h.Insert(2);
-	h.Print();
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	h.Print();
-	h.Insert(1);
-	h.Insert(5);
-	h.Insert(3);
-	h.Print();
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	h.Print();
-	cout << "Length = " << h.GetLength() << "\n";
-}
-
 int main()
 {
 	cout << "Hello World!\n";
@@ -274,7 +281,8 @@ int main()
 	//TestStack();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
+	//TestHeap();
 	//TestArrayAlgorithms();
+	 TestGraphAlgorithms();
 	//TestPathFinding();
-	TestHeap();
 }
