@@ -30,8 +30,6 @@ namespace graphs {
 		std::vector<std::vector<edge>> graph;
 		const int size;
 		bool DepthFirstSearchRecurse(int current, int val, std::vector<bool> &seen, std::vector<int> &path);
-		bool HasUnvisted(const std::vector<bool>& seen, const std::vector<int>& distance);
-		int GetLowestUnvisited(const std::vector<bool>& seen, const std::vector<int>& distance);
 	};
 
 }

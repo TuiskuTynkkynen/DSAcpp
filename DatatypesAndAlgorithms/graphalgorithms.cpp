@@ -231,28 +231,4 @@
 			std::cout << " -> " << out[i];
 		}
 		std::cout << "\nDistnance = " << distance[val] << "\n";
-
-	}
-
-	bool graphs::AdjacencyList::HasUnvisted(const std::vector<bool>& seen, const std::vector<int>& distance) {
-		for (int i = 0; i < size; i++) {
-			if (!seen[i] && distance[i] < INT32_MAX) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	int graphs::AdjacencyList::GetLowestUnvisited(const std::vector<bool>& seen, const std::vector<int>& distance) {
-		int lowest;
-		int lowstDistance = INT32_MAX;
-
-		for (int i = 0; i < size; i++) {
-			if (!seen[i] && distance[i] < lowstDistance) {
-				lowstDistance = distance[i];
-				lowest = i;
-			}
-		}
-		
-		return lowest;
 	}
