@@ -3,8 +3,10 @@
 #include <vector>
 #include <iostream>
 
-	hashmap::HashMap::HashMap(unsigned int val){
-		map.reserve(val);
+	hashmap::HashMap::HashMap(unsigned int size){
+		map.reserve(size);
+		std::vector<kvPair> emptyBucket;
+		map.assign(size, emptyBucket);
 		length = 0;
 	}
 
@@ -31,6 +33,8 @@
 
 		map.clear();
 		map.reserve(newCapacity);
+		std::vector<kvPair> emptyBucket;
+		map.assign(newCapacity, emptyBucket);
 
 		for (std::vector<kvPair> bucket : tempMap){
 			for (kvPair keyValue : bucket) {
@@ -38,7 +42,6 @@
 				map[key % newCapacity].push_back({ key, keyValue.second});
 			}
 		}
-
 		tempMap.clear();
 	}
 
@@ -61,12 +64,14 @@
 
 	int hashmap::HashMap::Insert(const std::string& val) {
 		int capacity = map.capacity();
-		if (length / capacity >= 0.7) {
+		if (length / static_cast<double>(capacity) >= 0.7) {
 			Resize();
+			capacity = map.capacity();
 		}
-		
+
 		int key = Hash(val);
 		map[key % capacity].push_back({key, val});
+		length++;
 		return key;
 	}
 
@@ -86,8 +91,11 @@
 	void hashmap::HashMap::Print(){
 		if (length == 0) {
 			std::cout << "Hash map is empty\n";
+			return;
 		}
+
 		int size = map.size();
+
 		std::cout << "Hash map:";
 		for (int i = 0; i < size; i++) {
 			std::vector<kvPair>& bucket = map[i];

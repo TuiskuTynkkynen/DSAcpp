@@ -110,11 +110,15 @@ void TestHashMap() {
 	hMap.Print();
 	hMap.Delete("foo");
 	hMap.Print();
-	cout << "Hash map contains \"foo\" = " << hMap.Contains("foo") << "\n";
-	cout << "Hash map contains \"bar\" = " << hMap.Contains("bar") << "\n";
+	cout << "Hash map contains \"foo\" = " << (hMap.Contains("foo") ? "true" : "false") << "\n";
+	cout << "Hash map contains \"bar\" = " << (hMap.Contains("bar") ? "true" : "false") << "\n";
 	hMap.Insert("foo");
-	hMap.Insert("bar");
+	hMap.Insert("a");
 	hMap.Insert("baz");
+	hMap.Insert("ff");
+	hMap.Insert("www");
+	hMap.Print();
+	hMap.Clear();
 	hMap.Print();
 }
 
