@@ -5,6 +5,7 @@
 #include "stack.h"
 #include "heap.h"
 #include "hashmap.h"
+#include "cache.h"
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
@@ -120,6 +121,23 @@ void TestHashMap() {
 	hMap.Print();
 	hMap.Clear();
 	hMap.Print();
+}
+
+void TestCache() {
+	cache::LRUCache LRU(5);
+	LRU.Update(0, "foo");
+	LRU.Update(0, "bar");
+	LRU.Update(0, "baz");
+	LRU.Print();
+	int key = LRU.GetKey("foo");
+	LRU.Update(key, "");
+	LRU.Print();
+	std::cout << "value of key " << key << " = " << LRU.GetValue(key) << "\n";
+	LRU.Update(0, "a");
+	LRU.Update(0, "b");
+	LRU.Print();
+	LRU.Update(0, "c");
+	LRU.Print();
 }
 
 void TestBinarySearchTree() {
@@ -307,7 +325,8 @@ int main()
 	//TestQueue();
 	//TestStack();
 	//TestHeap();
-	TestHashMap();
+	//TestHashMap();
+	TestCache();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
 	//TestArrayAlgorithms();
