@@ -3,12 +3,13 @@
 #include "linkedlist.h"
 #include "queue.h"
 #include "stack.h"
+#include "heap.h"
+#include "hashmap.h"
 #include "binarysearchtree.h"
 #include "redblacktree.h"
 #include "arrayalgorithms.h"
 #include "graphalgorithms.h"
 #include "pathfinding.h"
-#include "heap.h"
 using namespace std;
 
 void TestLinkedList() {
@@ -81,6 +82,42 @@ void TestStack() {
 	cout << "Peek = " << s.Peek() << "\n";
 }
 
+void TestHeap() {
+	heap::MinHeap h(10);
+	h.Insert(8);
+	h.Insert(10);
+	h.Insert(2);
+	h.Print();
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
+	h.Insert(1);
+	h.Insert(5);
+	h.Insert(3);
+	h.Print();
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	std::cout << "Deleted value = " << h.Delete() << "\n";
+	h.Print();
+	cout << "Length = " << h.GetLength() << "\n";
+}
+
+void TestHashMap() {
+	hashmap::HashMap hMap(5);
+	hMap.Print();
+	hMap.Insert("foo");
+	hMap.Insert("bar");
+	hMap.Insert("baz");
+	hMap.Print();
+	hMap.Delete("foo");
+	hMap.Print();
+	cout << "Hash map contains \"foo\" = " << hMap.Contains("foo") << "\n";
+	cout << "Hash map contains \"bar\" = " << hMap.Contains("bar") << "\n";
+	hMap.Insert("foo");
+	hMap.Insert("bar");
+	hMap.Insert("baz");
+	hMap.Print();
+}
+
 void TestBinarySearchTree() {
 	binarysearchtree::BinarySearchTree BST{};
 	BST.Insert(16);
@@ -150,25 +187,6 @@ void TestRedBlackTree() {
 	RBTree.Free();
 }
 
-void TestHeap() {
-	heap::MinHeap h(10);
-	h.Insert(8);
-	h.Insert(10);
-	h.Insert(2);
-	h.Print();
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	h.Print();
-	h.Insert(1);
-	h.Insert(5);
-	h.Insert(3);
-	h.Print();
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	std::cout << "Deleted value = " << h.Delete() << "\n";
-	h.Print();
-	cout << "Length = " << h.GetLength() << "\n";
-}
-
 void TestGraphAlgorithms() {
 	std::cout << "Adjacency matrix graph: \n";
 	graphs::AdjacencyMatrix adMat;
@@ -179,7 +197,6 @@ void TestGraphAlgorithms() {
 	adList.DepthFirstSearch(4);
 	adList.DjikstrasShortestPath(4);
 }
-
 
 void TestArrayAlgorithms() {
 	cout << "\nArray: \n";
@@ -285,10 +302,11 @@ int main()
 	//TestLinkedList();
 	//TestQueue();
 	//TestStack();
+	//TestHeap();
+	TestHashMap();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
-	//TestHeap();
 	//TestArrayAlgorithms();
-	 TestGraphAlgorithms();
+	// TestGraphAlgorithms();
 	//TestPathFinding();
 }
