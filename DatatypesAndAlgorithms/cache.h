@@ -7,15 +7,16 @@ namespace cache
 {
 	class LRUCache {
 	public:
-		LRUCache(unsigned int val);
+		LRUCache(unsigned int size);
 		~LRUCache();
 		void Clear();
-		void Evict();
-		std::string& Find(int index);
-		int Find(const std::string& value);
-		int Insert(const std::string& value);
+		std::string Get(int index);
+		int Get(const std::string& value);
+		int Update(const std::string& value);
 		void Print();
 	private:
+		const int size;
+
 		struct Node;
 		std::shared_ptr<Node> head = nullptr;
 		std::shared_ptr<Node> tail = nullptr;
@@ -23,6 +24,7 @@ namespace cache
 		std::unordered_map<int, Node> map;
 
 		void SetMostReacent(std::shared_ptr<Node> node);
+		void Evict();
 	};
 }
 
