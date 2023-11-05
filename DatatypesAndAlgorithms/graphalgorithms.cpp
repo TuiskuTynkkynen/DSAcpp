@@ -83,7 +83,7 @@
 	}
 
 	graphs::AdjacencyList::AdjacencyList()
-		:size(7)
+		:size(8)
 	{
 		std::vector<edge> tempVector;
 
@@ -123,6 +123,9 @@
 		tempVector.push_back({4,1}); //Edge[0]
 		graph.push_back(tempVector);
 		tempVector.clear();
+
+		//Graph[7]
+		graph.push_back(tempVector);
 	}
 
 	graphs::AdjacencyList::~AdjacencyList(){
@@ -176,9 +179,6 @@
 	void graphs::AdjacencyList::DjikstrasShortestPath(int val) {
 		const int source = 0;
 
-		std::vector<bool> seen;
-		seen.assign(size, false);
-
 		std::vector<int> previous;
 		previous.assign(size, -1);
 		
@@ -186,27 +186,33 @@
 		distance.assign(size, INT32_MAX);
 		distance[source] = 0;
 
-		while (HasUnvisted(seen, distance)) {
-			int current = GetLowestUnvisited(seen, distance);
-			seen[current] = true;
+		typedef std::pair<int, int> intPair;
+		std::priority_queue<intPair, std::vector<intPair>, std::greater<intPair>> q;
+
+		q.emplace(0, source);
+
+		while (!q.empty()) {
+			int current = q.top().second;
+			q.pop();
 
 			int edgeCount = graph[current].size();
 			for (int i = 0; i < edgeCount; i++) {
 				edge edge = graph[current][i];
-				if (seen[edge.destination]) {
-					continue;
-				}
+
 				int tempDistance = distance[current] + edge.weigth;
 				if (tempDistance < distance[edge.destination]) {
 					distance[edge.destination] = tempDistance;
+					q.emplace(tempDistance, edge.destination);
 					previous[edge.destination] = current;
 				}
-
 			}
 		}
 
-		if (seen[val] == false) {
-			std::cout << "Did not find value = " << val << "\n";
+		if (val >= size) {
+			std::cout << "Node = " << val << " does note exist\n";
+			return;
+		} else if (previous[val] == -1) {
+			std::cout << "Could not reach node = " << val << "\n";
 			return;
 		}
 
