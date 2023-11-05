@@ -25,9 +25,9 @@ namespace cache
 		std::unordered_map<int, std::shared_ptr<Node>> lookup;
 		std::unordered_map<std::shared_ptr<Node>, int> reverseLookup;
 
-		void SetMostReacent(std::shared_ptr<Node> node);
 		void Evict();
 		std::shared_ptr<Node> Get(int key);
+		void SetMostReacent(std::shared_ptr<Node> node);
 	};
 }
 

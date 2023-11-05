@@ -130,9 +130,10 @@ void TestCache() {
 	LRU.Update(0, "baz");
 	LRU.Print();
 	int key = LRU.GetKey("foo");
-	LRU.Update(key, "");
+	key = LRU.Update(key, "new foo");
 	LRU.Print();
-	std::cout << "value of key " << key << " = " << LRU.GetValue(key) << "\n";
+	std::cout << "value of key " << key << " = \"" << LRU.GetValue(key) << "\"\n";
+	std::cout << "key of value \"bar\" = " << LRU.GetKey("bar") << "\n";
 	LRU.Update(0, "a");
 	LRU.Update(0, "b");
 	LRU.Print();

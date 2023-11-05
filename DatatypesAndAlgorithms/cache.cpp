@@ -50,12 +50,11 @@
 		int key = reverseLookup[tail];
 		lookup.erase(key);
 		reverseLookup.erase(tail);
-
 		if (head != tail) {
 			std::shared_ptr<Node> node = tail;
+			tail = tail->previous;
 			node->previous->next = nullptr;
 			node->next = node->previous = nullptr;
-			tail = tail->previous;
 		} else {
 			tail->next = tail->previous = nullptr;
 			head = tail = nullptr;
@@ -83,52 +82,58 @@
 		length = 0;
 	}
 
-	int cache::LRUCache::GetKey(const std::string& value) {
-		std::shared_ptr<Node> node = head;
-
-		while (node != nullptr) {
-			if (node->value == value) {
-				return reverseLookup[node];
-			}
-			node = node->next;
-		}
-
-		return -1;
+	int cache::LRUCache::GetKey(const std::string& val) {
+		std::hash<std::string> hasher;
+		return hasher(val);
 	}
 	
 	const std::string& cache::LRUCache::GetValue(int key) {
-		return lookup[key]->value;
+		std::shared_ptr<Node> node = Get(key);
+		if (node != nullptr) {
+			return node->value;
+		}
+		return "";
 	}
 
 	int cache::LRUCache::Update(int key, const std::string& val) {
 		std::shared_ptr<Node> node = Get(key);
-		
+		std::hash<std::string> hasher;
+		int newKey = hasher(val);
+
 		if (node != nullptr) {
-			return;
+			node->value = val;
+			lookup.erase(key);
+			reverseLookup.erase(node);
+		} else {
+			if (++length > size) {
+				Evict();
+			}
+
+			node = std::make_shared<Node>();
+			node->value = val;
+			node->next = head;
+			node->previous = nullptr;
+
+			if (head == nullptr) {
+				head = tail = node;
+			}
+			else {
+				head->previous = node;
+				head = node;
+			}
 		}
-
-		if (++length == size) {
-			Evict();
-		}
-
-		std::shared_ptr<Node> node = std::make_shared<Node>();
-		node->value = val;
-		node->next = head;
-		node->previous = nullptr;
-
-		if (head != nullptr) {
-			head->previous = node;
-		}
-
-		head = node;
+		
+		lookup.emplace(newKey, node);
+		reverseLookup.emplace(node, newKey);
+		return newKey;
 	}
 	
 	void cache::LRUCache::Print() {
 		std::shared_ptr<Node> node = head;
 		std::cout << "LRU = ";
-		while (node != nullptr) {
+		while (node->next != nullptr) {
 			std::cout << node->value << " <-> ";
 			node = node->next;
 		}
-		std::cout << "\n";
+		std::cout << node->value << "\n";
 	}
