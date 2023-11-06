@@ -65,4 +65,11 @@ class VeryComplexMaze : public Maze{
 		VeryComplexMaze();
 };
 
+class ExtremelyComplexMaze : public Maze{
+	private:
+		void foo() {}
+	public:
+		ExtremelyComplexMaze();
+};
+
 #endif

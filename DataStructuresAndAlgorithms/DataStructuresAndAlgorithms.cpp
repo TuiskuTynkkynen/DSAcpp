@@ -320,6 +320,9 @@ void TestPathFinding() {
 	pathfinding::VeryComplexMaze maze2;
 	maze2.SolveDFS();
 	maze2.DjikstrasAlgorithm();
+	pathfinding::ExtremelyComplexMaze maze3;
+	maze3.SolveDFS();
+	maze3.DjikstrasAlgorithm();
 }
 
 int main()
