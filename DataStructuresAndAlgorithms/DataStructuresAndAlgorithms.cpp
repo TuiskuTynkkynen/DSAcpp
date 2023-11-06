@@ -312,11 +312,14 @@ void TestArrayAlgorithms() {
 
 void TestPathFinding() {
 	pathfinding::SimpleMaze maze0;
-	maze0.Solve();
+	maze0.SolveDFS();
+	maze0.DjikstrasAlgorithm();
 	pathfinding::ComplexMaze maze1;
-	maze1.Solve();
+	maze1.SolveDFS();
+	maze1.DjikstrasAlgorithm();
 	pathfinding::VeryComplexMaze maze2;
-	maze2.Solve();
+	maze2.SolveDFS();
+	maze2.DjikstrasAlgorithm();
 }
 
 int main()
@@ -327,10 +330,10 @@ int main()
 	//TestStack();
 	//TestHeap();
 	//TestHashMap();
-	TestCache();
+	//TestCache();
 	//TestBinarySearchTree();
 	//TestRedBlackTree();
 	//TestArrayAlgorithms();
-	// TestGraphAlgorithms();
-	//TestPathFinding();
+	//TestGraphAlgorithms();
+	TestPathFinding();
 }

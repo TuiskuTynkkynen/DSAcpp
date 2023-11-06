@@ -9,6 +9,14 @@ class Maze
 		struct Coordinate {
 			int y;
 			int x;
+
+			bool operator==(const Coordinate& other) {
+				return (y == other.y) && (x == other.x);
+			}
+
+			bool operator!=(const Coordinate& other) {
+				return !operator==(other);
+			}
 		};
 		const Coordinate directions[4] = {
 			{0, 1},
@@ -27,11 +35,13 @@ class Maze
 		bool** seen;
 		std::vector<Coordinate> path;
 
-		bool  SolveRecursive(int posX, int posY);
+		bool  SolveRecursiveDFS(int posX, int posY);
+		size_t getIndex(int y, int x) const { return y * width + x; }
 		virtual void foo() = 0;
 	public:
 		~Maze();
-		void Solve();
+		void SolveDFS();
+		void DjikstrasAlgorithm();
 };
 
 class SimpleMaze : public Maze{
