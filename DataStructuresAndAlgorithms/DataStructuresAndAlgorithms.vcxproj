@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{0a31f9de-ab3d-4403-ba22-92bd8b999472}</ProjectGuid>
-    <RootNamespace>DatatypesAndAlgorithms</RootNamespace>
+    <RootNamespace>DataStructuresAndAlgorithms</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -131,7 +131,7 @@
     <ClCompile Include="arrayalgorithms.cpp" />
     <ClCompile Include="binarysearchtree.cpp" />
     <ClCompile Include="cache.cpp" />
-    <ClCompile Include="DatatypesAndAlgorithms.cpp" />
+    <ClCompile Include="DataStructuresAndAlgorithms.cpp" />
     <ClCompile Include="graphalgorithms.cpp" />
     <ClCompile Include="hashmap.cpp" />
     <ClCompile Include="heap.cpp" />

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DatatypesAndAlgorithms.cpp">
+    <ClCompile Include="DataStructuresAndAlgorithms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="arrayalgorithms.cpp">

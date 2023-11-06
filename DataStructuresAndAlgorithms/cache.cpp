@@ -63,7 +63,7 @@
 	}
 
 	std::shared_ptr<cache::LRUCache::Node> cache::LRUCache::Get(int key) {
-		std::_List_iterator iter = lookup.find(key);
+		auto iter = lookup.find(key);
 		
 		if (iter == lookup.end()) {
 			return nullptr;
